@@ -7,6 +7,8 @@ dotenv.config({path : 'backend/config/config.env'});
 
 connectToDatabase();
 
+app.use(express.json())
+
 // import EN Variables 
 const PORT = process.env.BACKEND_PORT;
 const MODE = process.env.NODE_ENV;
