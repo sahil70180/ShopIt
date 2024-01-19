@@ -1,8 +1,11 @@
 import express from 'express'
 const app = express();
 import dotenv from 'dotenv'
+import { connectToDatabase } from './config/dbConnect.js';
 
 dotenv.config({path : 'backend/config/config.env'});
+
+connectToDatabase();
 
 // import EN Variables 
 const PORT = process.env.BACKEND_PORT;
