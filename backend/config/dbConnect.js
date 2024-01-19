@@ -12,6 +12,6 @@ export const connectToDatabase = () =>{
     }
 
     mongoose.connect(DB_URI).then((con) => {
-        console.log(`MongoDB server connected with HOST : ${process.env.BACKEND_PORT} in ${process.env.NODE_ENV} mode`)
+        console.log(`MongoDB Database connected with HOST : ${con?.connection?.host}`)
     })
 };
