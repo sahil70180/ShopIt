@@ -4,6 +4,13 @@ import dotenv from 'dotenv'
 import { connectToDatabase } from './config/dbConnect.js';
 import errorMiddleware from './middlewares/error.js';
 
+// handle uncaught exception 
+process.on("uncaughtException", (err) =>{
+    console.log(`ERROR : ${err}`);
+    console.log("Shutting down server due to uncaught exception");
+    process.exit(1);
+})
+
 dotenv.config({path : 'backend/config/config.env'});
 
 connectToDatabase();
@@ -22,6 +29,15 @@ app.use("/api/v1", productRoutes);
 // using error middlewares 
 app.use(errorMiddleware);
 
-app.listen(PORT, () =>{
+const server = app.listen(PORT, () =>{
     console.log(`Server Start Successfully on ${PORT} in ${MODE} mode`)
+})
+
+//handle unhandled Promise Rejection
+process.on("unhandledRejection", (err) =>{
+    console.log(`ERROR : ${err}`)
+    console.log("Shutting down server due to Undandled Promise Rejection");
+    server.close(()=>{
+        process.exit();
+    });
 })
