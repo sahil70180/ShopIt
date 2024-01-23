@@ -1,14 +1,13 @@
 import Product from "../models/product.js";
+import ErrorHandler from "../utils/errorHandler.js";
 
 // Getting all Product ==> /api/v1/products
-export const getProdcuts = async (req, res) =>{
+export const getProdcuts = async (req, res, next) =>{
 
     const products = await Product.find();
 
     if(!products){
-        res.status(400).json({
-            message: "No Product Found"
-        })
+        return next(new ErrorHandler("Products Not Found", 404));
     }
     res.status(200).json({
         message : "All Products Fetched Successully",
@@ -29,15 +28,13 @@ export const newProduct = async (req, res) =>{
 
 
 // get single product details ==> /api/v1/products/:id
-export const getProductDetails = async (req, res) =>{
+export const getProductDetails = async (req, res, next) =>{
 
     const product = await Product.findById(req?.params?.id);
-
     if(!product){
-        return res.status(404).json({
-            message: "Product Not Found"
-        });
+        return next(new ErrorHandler("Product Not Found", 404));
     }
+
     res.status(200).json({
         message: "Prodcut Fetched with ID Successfully",
         product,
@@ -45,12 +42,10 @@ export const getProductDetails = async (req, res) =>{
 };
 
 // update product details ==> api/v1/products/:id
-export const updateProduct = async (req,res) =>{
+export const updateProduct = async (req, res, next) =>{
     let product = await Product.findById(req?.params?.id);
     if(!product){
-        return res.status(404).json({
-            message: "Prodcut Not Found"
-        });
+        return next(new ErrorHandler("Product Not Found", 404));
     }
 
     product = await Product.findByIdAndUpdate(req?.params?.id, req.body, {new:true});
@@ -62,12 +57,10 @@ export const updateProduct = async (req,res) =>{
 }
 
 // delete product using id ==> api.v1/products/:id
-export const deleteProduct = async(req, res) =>{
+export const deleteProduct = async(req, res, next) =>{
     let product = await Product.findById(req?.params?.id);
     if(!product){
-        return res.status(404).json({
-            message: "Product Not Found"
-        });
+        return next(new ErrorHandler("Product Not Found", 404));
     }
 
     await product.deleteOne();
