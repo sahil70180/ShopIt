@@ -1,17 +1,19 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import Product from "../models/product.js";
+import APIFilters from "../utils/apiFilters.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
 // Getting all Product ==> /api/v1/products
 export const getProdcuts = catchAsyncErrors(async (req, res, next) =>{
 
-    const products = await Product.find();
-
-    if(!products){
-        return next(new ErrorHandler("Products Not Found", 404));
-    }
+    const apiFilters = new APIFilters(Product, req.query).serarch();
+    
+    let products = await apiFilters.query;
+    let Total_Products = products.length; 
+    
+    
     res.status(200).json({
-        message : "All Products Fetched Successully",
+        Total_Products,
         products,
     });
 })
