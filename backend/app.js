@@ -24,7 +24,12 @@ const MODE = process.env.NODE_ENV;
 // import product routes 
 import productRoutes from "./routes/products.js"
 
+// import user(auth) routes 
+import authRoutes from "./routes/auth.js"
+
+
 app.use("/api/v1", productRoutes);
+app.use("/api/v1", authRoutes);
 
 // using error middlewares 
 app.use(errorMiddleware);

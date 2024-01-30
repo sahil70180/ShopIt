@@ -6,14 +6,15 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node backend/app.js",
-    "dev" : "SET NODE_ENV=DEVELOPMENT& nodemon backend/app.js",
-    "prod":"SET NODE_ENV=PRODUCTION& nodemon backend/app.js",
-    "seeder" :"node backend/seeder/seeder.js"
+    "start": "node backend/app.js",
+    "dev": "SET NODE_ENV=DEVELOPMENT& nodemon backend/app.js",
+    "prod": "SET NODE_ENV=PRODUCTION& nodemon backend/app.js",
+    "seeder": "node backend/seeder/seeder.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mongoose": "^8.1.0"
