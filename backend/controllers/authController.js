@@ -1,6 +1,7 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import User from "../models/user.js";
 import ErrorHandler from "../utils/errorHandler.js"
+import assignToken from "../utils/assignToken.js";
 
 // Register User ==> /api/v1/resister
 export const registerUser = catchAsyncErrors(async(req, res, next) =>{
@@ -17,12 +18,7 @@ export const registerUser = catchAsyncErrors(async(req, res, next) =>{
     });
     const token = user.getJWTToken();
 
-    return res.status(200).json({
-        message: "User Register Successfully",
-        success : true,
-        user,
-        token,
-    })
+    assignToken(user, 201, res);
 });
 
 // login User ==> /api/v1/login
@@ -44,10 +40,5 @@ export const login = catchAsyncErrors(async (req, res, next) =>{
     }
     const token = user.getJWTToken();
 
-    return res.status(200).json({
-        message:"LogIn successfully",
-        user,
-        token,
-    })
-
+    assignToken(user, 200, res);
 })
