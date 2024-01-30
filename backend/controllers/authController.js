@@ -41,4 +41,16 @@ export const login = catchAsyncErrors(async (req, res, next) =>{
     const token = user.getJWTToken();
 
     assignToken(user, 200, res);
+});
+
+// logout user ==> /api/v1/logout
+
+export const logout = catchAsyncErrors(async (req, res, next) =>{
+    res.cookie("token", null, {
+        expires : new Date(Date.now()),
+        httpOnly: true
+    })
+    return res.status(200).json({
+        message: "Logged Out"
+    });
 })

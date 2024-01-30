@@ -1,11 +1,10 @@
 import express from "express"
-import cookieParser from "cookie-parser";
-import { login, registerUser } from "../controllers/authController.js";
+import { login, logout, registerUser } from "../controllers/authController.js";
 
 const router = express.Router();
 
-
 router.route("/register").post(registerUser)
 router.route("/login").post(login);
+router.route("/logout").get(logout);
 
 export default router;
