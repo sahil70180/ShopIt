@@ -16,10 +16,12 @@ export const registerUser = catchAsyncErrors(async(req, res) =>{
     const user = await User.create({
         name,email,password
     });
+    const token = user.getJWTToken();
 
     return res.status(201).json({
         message: "User Register Successfully",
         success : true,
         user,
+        token,
     })
 });
