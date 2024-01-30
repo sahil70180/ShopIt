@@ -6,14 +6,19 @@ import ErrorHandler from "../utils/errorHandler.js";
 // Getting all Product ==> /api/v1/products
 export const getProdcuts = catchAsyncErrors(async (req, res, next) =>{
 
+    const responsePerPage = 4; // declare total products in one page.(for pagination)
     const apiFilters = new APIFilters(Product, req.query).search().filters();
     
     let products = await apiFilters.query;
-    let Total_Products = products.length; 
+    let filteredProductsCount = products.length; 
     
-    
+    // apply pagination 
+    apiFilters.pagination(responsePerPage);
+    products = await apiFilters.query.clone();
+
     res.status(200).json({
-        Total_Products,
+        responsePerPage,
+        filteredProductsCount,
         products,
     });
 })

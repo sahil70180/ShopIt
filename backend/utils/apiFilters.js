@@ -1,5 +1,3 @@
-import { json } from "express";
-
 class APIFilters{
     constructor (query, queryStr){
         this.query = query;
@@ -26,18 +24,26 @@ class APIFilters{
         const queryCopy = {...this.queryStr}
         // remove keyword from querycopy because we already handle it in search function  
 
-        const fieldsToRemove = ['keyword']
+        const fieldsToRemove = ['keyword', 'page']
         fieldsToRemove.forEach((element) => delete queryCopy[element]);
         
-        // console.log(queryCopy);
 
-        // advance mongoose filters 
-        let queryStr = JSON.stringify(queryCopy);
+        // advance mongoose filters [gt, gte, lt, lte]
+        let queryStr = JSON.stringify(queryCopy); // convert copy into string so that we manipulate it(Add $)
         queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`)
-        // console.log(queryStr);
+
 
         this.query = this.query.find(JSON.parse(queryStr))
         return this;
+    }
+
+    pagination(responsePerPage){
+        const currentPage = Number(this.queryStr.page) || 1;
+        const skip = responsePerPage*(currentPage - 1);
+
+        this.query = this.query.limit(responsePerPage).skip(skip);
+        return this;
+
     }
 }
 
