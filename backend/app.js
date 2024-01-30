@@ -1,6 +1,7 @@
 import express from 'express'
 const app = express();
 import dotenv from 'dotenv'
+import cookieParser from "cookie-parser"
 import { connectToDatabase } from './config/dbConnect.js';
 import errorMiddleware from './middlewares/error.js';
 
@@ -33,6 +34,7 @@ app.use("/api/v1", authRoutes);
 
 // using error middlewares 
 app.use(errorMiddleware);
+app.use(cookieParser());
 
 const server = app.listen(PORT, () =>{
     console.log(`Server Start Successfully on ${PORT} in ${MODE} mode`)
