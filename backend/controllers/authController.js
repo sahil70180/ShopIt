@@ -160,3 +160,25 @@ export const updatePassword = catchAsyncErrors(async (req, res, next) =>{
     success: true,
   })
 })
+
+// update user profile 
+export const updateUserProfile = catchAsyncErrors(async (req, res, next) =>{
+  
+  const newUserData = {
+    name : req.body.name,
+    email: req.body.email
+  }
+  
+  const email = req.body.email
+  const existingUseremail  = await User.findOne({email});
+  if(existingUseremail){
+    return next(new ErrorHandler("Email Already Exist with another account.", 400));
+  }
+
+  const user = await User.findByIdAndUpdate(req.user._id, newUserData, {new : true});
+
+  res.status(200).json({
+    message :"Profile Update Successfully",
+    user,
+  })
+})
