@@ -209,3 +209,43 @@ export const getUserDetails = catchAsyncErrors(async(req, res, next) =>{
     user,
   })
 })
+
+
+//to be commited 
+// update user details == ADMIN ==> /api/v1/admin/users/:id
+export const updateUser = catchAsyncErrors(async (req, res, next) =>{
+  
+  const userNewData = {
+    name : req.body.name,
+    email : req.body.email,
+    role : req.body.role,
+  }
+  const user = await User.findByIdAndUpdate(req.params.id, userNewData, {new : true});
+
+  if(!user){
+    return next(new ErrorHandler(`User Not found with id: ${req.params.id} `, 404))
+  }
+
+  res.status(200).json({
+    message :"Update successfully",
+    user,
+  })
+})
+
+// delete user details == ADMIN ==> /api/v1/admin/users/:id
+export const deleteUser = catchAsyncErrors(async (req, res, next) =>{
+  
+  const user = await User.findByIdAndDelete(req.params.id);
+
+  if(!user){
+    return next(new ErrorHandler(`User Not found with id: ${req.params.id} `, 404))
+  }
+
+  // TODO : Remove user avatar from cloudinary
+  await user.deleteOne();
+
+  res.status(200).json({
+    message :"Delete successfully",
+    success: true,
+  })
+})
