@@ -8,7 +8,7 @@ import crypto from "crypto"
 
 // Register User ==> /api/v1/resister
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   const existingUser = await User.findOne({ email });
 
@@ -20,6 +20,7 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
     name,
     email,
     password,
+    role,
   });
   const token = user.getJWTToken();
 
@@ -179,6 +180,32 @@ export const updateUserProfile = catchAsyncErrors(async (req, res, next) =>{
 
   res.status(200).json({
     message :"Profile Update Successfully",
+    user,
+  })
+})
+
+// get all user -- ADMIN ==> /api/v1/admin/users
+export const allUsers = catchAsyncErrors(async(req, res, next) =>{
+  const users = await User.find();
+  if(!users){
+    return next(new ErrorHandler("No users in the database", 400))
+  }
+
+  res.status(200).json({
+    message:"All users",
+    users,
+  })
+})
+
+// get userDetails -- ADMIN ==> /api/v1/admin/users
+export const getUserDetails = catchAsyncErrors(async(req, res, next) =>{
+  const user = await User.findById(req.params.id);
+
+  if(!user){
+    return next(new ErrorHandler(`User Not found with id: ${req.params.id} `, 404))
+  }
+  res.status(200).json({
+    message:"User Found",
     user,
   })
 })
