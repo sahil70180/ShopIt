@@ -28,9 +28,13 @@ import productRoutes from "./routes/products.js"
 // import user(auth) routes 
 import authRoutes from "./routes/auth.js"
 
+// import order router 
+import orderRoutes from "./routes/order.js"
+
 
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", authRoutes);
+app.use("/api/v1", orderRoutes);
 
 // using error middlewares 
 app.use(errorMiddleware);

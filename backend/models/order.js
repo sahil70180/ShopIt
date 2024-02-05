@@ -29,7 +29,7 @@ const orderSchema = new mongoose.Schema(
       required: true,
       ref: "User",
     },
-    orderItemsv: [
+    orderItems: [
       {
         name: {
           type: String,
@@ -39,7 +39,7 @@ const orderSchema = new mongoose.Schema(
           type: Number,
           required: true,
         },
-        iamge: {
+        image: {
           type: String,
           required: true,
         },
@@ -66,7 +66,7 @@ const orderSchema = new mongoose.Schema(
       id: String,
       status: String,
     },
-    ItemsPrice: {
+    itemsPrice: {
       type: Number,
       required: true,
     },
@@ -86,7 +86,7 @@ const orderSchema = new mongoose.Schema(
       type: String,
       enum: {
         values: ["Processing", "Shipped", "Delivered"],
-        message: "Please Select correct order",
+        message: "Please Select correct order status",
       },
       default: "Processing",
     },
