@@ -249,3 +249,4 @@ export const deleteUser = catchAsyncErrors(async (req, res, next) =>{
     success: true,
   })
 })
+
