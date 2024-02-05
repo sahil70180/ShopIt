@@ -96,7 +96,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     user.resetPasswordToken = undefined;
     user.resetpasswordExpire = undefined;
     await user.save();
-    return next(new ErrorHandler(error?.message, 500));
+    return next(new ErrorHandler("Sending Failed Due to Internal Server Error. Try Again!!", 500));
   }
 });
 
@@ -129,4 +129,34 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) =>{
 
   assignToken(user, 200, res);
 
+})
+
+// get Current user profile ==> /api/v1/me
+export const getUseProfile = catchAsyncErrors(async (req, res, next) =>{
+  const user = await User.findById(req?.user?._id);
+
+  res.status(200).json({
+    message : "user Profile",
+    user,
+  })
+})
+
+//update/ change password 
+export const updatePassword = catchAsyncErrors(async (req, res, next) =>{
+  const user = await User.findById(req?.user?._id).select("+password");
+  if(!user){
+    return next(new ErrorHandler("Password is requried", 400))
+  }
+  const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+  if(!isPasswordMatched){
+    return next(new ErrorHandler("Old password is Incorrect", 400))
+  };
+
+  user.password = req.body.password;
+  await user.save();
+  
+  res.status(200).json({
+    message : "Password Updated Successfully",
+    success: true,
+  })
 })
