@@ -18,6 +18,18 @@ export default (err, req, res, next) => {
     error = new ErrorHandler(message, 404);
   }
 
+  //handle JWT Error
+  if (err.name == "jsonWebTokenError") {
+    const message =  `JWT is invalid. Try Again !!`;
+    error = new ErrorHandler(message, 400);
+  }
+
+  // handle JWT expire Error 
+  if (err.name == "TokenExpiredError") {
+    const message = `Json Web Token is expired. Try Again !!`;
+    error = new ErrorHandler(message, 400);
+  }
+
   if (process.env.NODE_ENV === "DEVELOPMENT") {
     res.status(error.statusCode).json({
       message: error.message,

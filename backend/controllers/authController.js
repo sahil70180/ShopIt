@@ -4,6 +4,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 import assignToken from "../utils/assignToken.js";
 import { getResetPasswordTemplate } from "../utils/emailTemplate.js";
 import sendEmail from "../utils/sendEmail.js";
+import crypto from "crypto"
 
 // Register User ==> /api/v1/resister
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -98,3 +99,34 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error?.message, 500));
   }
 });
+
+
+// Rest Password ==> /api/vi/password/reset/:token
+export const resetPassword = catchAsyncErrors(async (req, res, next) =>{
+  //hash the URL Token 
+  const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
+
+  // now search the user 
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetpasswordExpire : {$gt : Date.now()}, 
+  })
+  if(!user){
+    return next(new ErrorHandler("Password reset token is Invalid or has been expired"), 400);
+  };
+
+  // check both password are same or not 
+  if(req.body.password != req.body.confirmPassword){
+    return next(new ErrorHandler("Passwords does not Match"), 400);
+  };
+  // set the passwod 
+  user.password = req.body.password;
+
+  // set the token to undefined 
+  user.resetPasswordToken = undefined;
+  user.resetpasswordExpire = undefined;
+  await user.save();
+
+  assignToken(user, 200, res);
+
+})
