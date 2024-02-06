@@ -63,3 +63,16 @@ export const myOrders = catchAsyncErrors(async (req, res, next) =>{
     order,
   })
 })
+
+// get all order ADMIN  ==> /api/v1/orders
+export const allOrders = catchAsyncErrors(async (req, res, next) =>{
+  const orders = await Order.find();
+  if(!orders){
+    return next(new Errorhandler("No Orders found in the database", 404));
+  }
+
+  res.status(200).json({
+    message :"ALl orders",
+    orders,
+  })
+})
