@@ -1,6 +1,7 @@
 import Order from "../models/order.js";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import Errorhandler from "../utils/errorHandler.js"
+import Product from "../models/product.js"
 
 //create new order ==> /api/v/orders/new
 export const newOrder = catchAsyncErrors(async (req, res, next) => {
@@ -74,5 +75,38 @@ export const allOrders = catchAsyncErrors(async (req, res, next) =>{
   res.status(200).json({
     message :"ALl orders",
     orders,
+  })
+})
+
+// update order - ADMIN ==> /api/v1/admin/orders/:id
+export const updateOrder = catchAsyncErrors(async (req, res, next) =>{
+  const order = await Order.findById(req.params.id);
+  if(!order){
+    return next(new Errorhandler("No Order found with this id", 404));
+  }
+
+  if(order?.orderStatus == "Delivered"){
+    return next(new Errorhandler("You have already Recieved this order", 400));
+  }
+  if(order?.orderStatus == "Shipped"){
+    return next(new Errorhandler("Order Already Shipped.",400 ));
+  }
+
+  // updating product stock for each orderitem and save the product again
+  order?.orderItems?.forEach(async (item)  =>{
+    const product = await Product.findById(item?.product?.toString());
+    product.stock = product.stock - item.quantity;
+    await product.save({validateBeforeSave : false });
+  })
+
+  order.orderStatus = req.body.status;
+  order.deliveredAt = Date.now();
+  
+  await order.save();
+
+
+  res.status(200).json({
+    message : "orderStatus and Stock update successfully",
+    success : true,
   })
 })
