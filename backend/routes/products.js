@@ -1,6 +1,6 @@
 import express  from "express";
 import cookieParser from "cookie-parser";
-import { createProductReview, deleteProduct, getProdcuts, getProductDetails, getProductReviews, newProduct, updateProduct } from "../controllers/productController.js";
+import { createProductReview, deleteProduct, deleteReview, getProdcuts, getProductDetails, getProductReviews, newProduct, updateProduct } from "../controllers/productController.js";
 import { authorizeRoles, isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
@@ -14,5 +14,6 @@ router.route("/admin/products/:id").put( isAuthenticated, authorizeRoles("admin"
 router.route("/admin/products/:id").delete(isAuthenticated, authorizeRoles("admin"), deleteProduct);
 router.route("/reviews").put(isAuthenticated, createProductReview);
 router.route("/reviews").get(isAuthenticated, getProductReviews);
+router.route("/admin/reviews").delete(isAuthenticated, authorizeRoles("admin"), deleteReview);
 
 export default router;
