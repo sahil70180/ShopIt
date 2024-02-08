@@ -1,9 +1,12 @@
 import React from 'react'
 import defaultProduct from "../assets/images/default_product.png"
 import { Link } from 'react-router-dom'
+import MetaData from './layout/MetaData'
 
 const Home = () => {
   return (
+    <>
+    <MetaData title={"Buy Best Product Online"}/>
     <div>
       <div className="row">
         <div className="col-12 col-sm-6 col-md-12">
@@ -17,10 +20,10 @@ const Home = () => {
                     className="card-img-top mx-auto"
                     src={defaultProduct}
                     alt=""
-                  />
+                    />
                   <div
                     className="card-body ps-3 d-flex justify-content-center flex-column"
-                  >
+                    >
                     <h5 className="card-title">
                       <Link to="">Product Name 1</Link>
                     </h5>
@@ -46,6 +49,7 @@ const Home = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 
