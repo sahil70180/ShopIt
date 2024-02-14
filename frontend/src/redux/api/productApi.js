@@ -6,8 +6,14 @@ export const productApi = createApi({
     reducerPath : 'productApi',
     baseQuery : fetchBaseQuery({baseUrl : "/api/v1"}),
     endpoints : (buidler) => ({
+
+        // Endpoint 1 : Get All products
         getProducts : buidler.query({
-            query : (params) => "/products"
+            query : (params) => "/products",
+        }),
+        // Endpoint 2 : Get Particular Product Details
+        getProductDetails : buidler.query({
+            query : ( id ) => `/products/${id}`,
         })
     })
 })
@@ -15,4 +21,4 @@ export const productApi = createApi({
 // getProducts is a endpoint name, and now we have to export it like a hook (RTK documentation)
 // the reason for exporting hook is that we can use isLoading, iserro and all these varaibles directly 
 
-export const  { useGetProductsQuery } = productApi
+export const  { useGetProductsQuery, useGetProductDetailsQuery} = productApi
