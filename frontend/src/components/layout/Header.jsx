@@ -2,6 +2,7 @@ import React from 'react'
 import LOGO from "../../assets/images/shopit_logo.png"
 import { Link } from "react-router-dom"
 import defaultAvatar from "../../assets/images/default_avatar.jpg"
+import Search from './Search'
 
 const Header = () => {
   return (
@@ -15,22 +16,7 @@ const Header = () => {
         </div>
       </div>
       <div className="col-12 col-md-6 mt-2 mt-md-0">
-        <form action="your_search_action_url_here" >
-          <div className="input-group">
-            <input
-              type="text"
-              id="search_field"
-              aria-describedby="search_btn"
-              className="form-control"
-              placeholder="Enter Product Name ..."
-              name="keyword"
-              value=""
-            />
-            <button id="search_btn" className="btn" type="submit">
-              <i className="fa fa-search" aria-hidden="true"></i>
-            </button>
-          </div>
-        </form>
+        <Search/>
       </div>
       <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
         <Link to="/cart">

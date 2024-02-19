@@ -9,9 +9,12 @@ import { useSearchParams } from "react-router-dom";
 
 const Home = () => {
   let [searchParams] = useSearchParams();
-  const page = searchParams.get("page");
+  const page = searchParams.get("page") || 1;
+  const keyword = searchParams.get("keyword") || "";
+
   const params = {
-    page
+    page,
+    keyword
   };
   const { data, isLoading, error, isError} = useGetProductsQuery(params);
 
@@ -30,7 +33,7 @@ const Home = () => {
         <div className="row">
           <div className="col-12 col-sm-6 col-md-12">
             <h1 id="products_heading" className="text-secondary">
-              Latest Products
+              {keyword ? `${data?.products?.length} Products Found with keyword : ${keyword}` : "Latest Products"}
             </h1>
             <section id="products" className="mt-5">
               <div className="row">
