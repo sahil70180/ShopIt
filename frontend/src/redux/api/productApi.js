@@ -9,7 +9,12 @@ export const productApi = createApi({
 
         // Endpoint 1 : Get All products
         getProducts : buidler.query({
-            query : (params) => "/products",
+            query : (params) => ({
+                url : "/products",
+                params : {
+                    page : params?.page,
+                },
+            })
         }),
         // Endpoint 2 : Get Particular Product Details
         getProductDetails : buidler.query({
