@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getPriceQueryParams } from '../../helpers/helper';
-import { PRODUCT_CATEGORIES } from '../../constants/Constants';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { getPriceQueryParams } from "../../helpers/helper";
+import { PRODUCT_CATEGORIES } from "../../constants/Constants";
+import StarRatings from "react-star-ratings";
 
 const Filters = () => {
   const [min, setMin] = useState(0);
@@ -10,73 +11,67 @@ const Filters = () => {
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
 
-  useEffect(() =>{
+  useEffect(() => {
     searchParams.has("min") && setMin(searchParams.get("min"));
     searchParams.has("max") && setMax(searchParams.get("max"));
-  }, [])
+  }, []);
 
   // handle category filter  and ratings
   const handleClick = (checkbox) => {
-    const checkboxes = document.getElementsByName(checkbox.name)
+    const checkboxes = document.getElementsByName(checkbox.name);
 
-    // allowing user to check one checkbox at a time 
+    // allowing user to check one checkbox at a time
     checkboxes.forEach((item) => {
-      if(item !== checkbox){
+      if (item !== checkbox) {
         item.checked = false;
       }
     });
 
-    if(checkbox.checked === false){
-      // delete the filter form params/query 
-      if(searchParams.has(checkbox.name)){
-        searchParams.delete(checkbox.name)
+    if (checkbox.checked === false) {
+      // delete the filter form params/query
+      if (searchParams.has(checkbox.name)) {
+        searchParams.delete(checkbox.name);
         const path = window.location.pathname + "?" + searchParams.toString();
         navigate(path);
       }
-    }
-    else{
-      // set new fiter value 
-      if(searchParams.has(checkbox.name)){
-        searchParams.set(checkbox.name, checkbox.value)
-      }
-      else{
-        // append new filter 
-        searchParams.append(checkbox.name, checkbox.value)
+    } else {
+      // set new fiter value
+      if (searchParams.has(checkbox.name)) {
+        searchParams.set(checkbox.name, checkbox.value);
+      } else {
+        // append new filter
+        searchParams.append(checkbox.name, checkbox.value);
       }
 
       const path = window.location.pathname + "?" + searchParams.toString();
       navigate(path);
     }
-  }
+  };
 
-  // hengle price filter 
-  const handleButtonClick = (e) =>{
+  // hengle price filter
+  const handleButtonClick = (e) => {
     e.preventDefault();
 
     searchParams = getPriceQueryParams(searchParams, "min", min);
-    searchParams = getPriceQueryParams(searchParams, "max", max)
+    searchParams = getPriceQueryParams(searchParams, "max", max);
 
     const path = window.location.pathname + "?" + searchParams.toString();
     navigate(path);
-  }
+  };
 
   const defaultCheckHandler = (checkboxType, checkboxValue) => {
     const value = searchParams.get(checkboxType);
-    if(checkboxValue === value){
+    if (checkboxValue === value) {
       return true;
     }
-    return false;   
-  }  
+    return false;
+  };
   return (
     <div className="border p-3 filter">
       <h3>Filters</h3>
       <hr />
       <h5 className="filter-heading mb-3">Price</h5>
-      <form
-        id="filter_form"
-        className="px-2"
-        onSubmit={handleButtonClick}
-      >
+      <form id="filter_form" className="px-2" onSubmit={handleButtonClick}>
         <div className="row">
           <div className="col">
             <input
@@ -99,7 +94,9 @@ const Filters = () => {
             />
           </div>
           <div className="col">
-            <button type="submit" className="btn btn-primary">GO</button>
+            <button type="submit" className="btn btn-primary">
+              GO
+            </button>
           </div>
         </div>
       </form>
@@ -107,7 +104,7 @@ const Filters = () => {
       <h5 className="mb-3">Category</h5>
 
       {PRODUCT_CATEGORIES?.map((category) => (
-          <div className="form-check">
+        <div className="form-check">
           <input
             className="form-check-input"
             type="checkbox"
@@ -117,40 +114,43 @@ const Filters = () => {
             defaultChecked={defaultCheckHandler("category", category)}
             onClick={(e) => handleClick(e.target)}
           />
-          <label className="form-check-label" for="check4"> {category}</label>
+          <label className="form-check-label" for="check4">
+            {" "}
+            {category}
+          </label>
         </div>
       ))}
-      
 
       <hr />
       <h5 className="mb-3">Ratings</h5>
 
-      <div className="form-check">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          name="ratings"
-          id="check7"
-          value="5"
-        />
-        <label className="form-check-label" for="check7">
-          <span className="star-rating">★ ★ ★ ★ ★</span>
-        </label>
-      </div>
-      <div className="form-check">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          name="ratings"
-          id="check8"
-          value="4"
-        />
-        <label className="form-check-label" for="check8">
-          <span className="star-rating">★ ★ ★ ★ ☆</span>
-        </label>
-      </div>
-    </div>
-  )
-}
+      {[5, 4, 3, 2, 1].map((rating) => (
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="ratings"
+            id="check7"
+            value={rating}
+            defaultChecked={defaultCheckHandler("ratings", rating.toString())}
+            onClick={(e) => handleClick(e.target)}
+          />
+          <label className="form-check-label" for="check7">
+            <StarRatings
+              rating={rating}
+              starRatedColor="#ffb829"
+              numberOfStars={5}
+              name="rating"
+              starDimension="21px"
+              starSpacing="1px"
+            />
+          </label>
+        </div>
+      ))}
 
-export default Filters
+      {/*  */}
+    </div>
+  );
+};
+
+export default Filters;
