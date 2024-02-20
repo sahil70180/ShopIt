@@ -1,38 +1,57 @@
 import React, { useEffect, useState } from 'react'
-import { useLoginMutation } from '../../redux/api/authapi';
+import { useRegisterMutation } from '../../redux/api/authapi';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
 
-const LogIn = () => {
+const Register = () => {
 
+    // setting up the sates 
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const [login, {isLoading, error}] = useLoginMutation();
+    // using regisetr Hook that we made in Redux
+    const [register, {isLoading, error}] = useRegisterMutation();
+    
+    // handle for submit 
+    const handleFormSubmit = (event) =>{
+        event.preventDefault();
 
-    useEffect(() => {
+        // preparing Register data 
+        const registerData = {
+            name,
+            email,
+            password,
+        }
+        register(registerData);
+    }
+
+    useEffect(() =>{
         if(error){
             toast.error(error?.data?.message);
         }
     },[error])
 
-    const handleformSubmit = (event) =>{
-        event.preventDefault();
-
-        const loginData = {
-            email,
-            password,
-        }
-        login(loginData);        
-    }
   return (
     <div className="row wrapper">
       <div className="col-10 col-lg-5">
         <form
           className="shadow rounded bg-body"
-          onSubmit={handleformSubmit}
+          onSubmit={handleFormSubmit}
+          enctype="multipart/form-data"
         >
-          <h2 className="mb-4">Login</h2>
+          <h2 className="mb-4">Register</h2>
+          <div className="mb-3">
+            <label htmlFor="name_field" className="form-label">Name</label>
+            <input
+              type="text"
+              id="name_field"
+              className="form-control"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+
           <div className="mb-3">
             <label htmlFor="email_field" className="form-label">Email</label>
             <input
@@ -57,19 +76,13 @@ const LogIn = () => {
             />
           </div>
 
-          <Link to="/password/forgot" className="float-end mb-4">Forgot Password?</Link>
-
-          <button id="login_button" type="submit" className="btn w-100 py-2" disabled={isLoading}>
-            {isLoading ? "Authicating...." : "LOGIN"}
+          <button id="register_button" type="submit" className="btn w-100 py-2">
+            {isLoading ? "Registering..." : "Register"}
           </button>
-
-          <div className="my-3">
-            <Link to="/register" className="float-end">New User?</Link>
-          </div>
         </form>
       </div>
     </div>
   )
 }
 
-export default LogIn
+export default Register

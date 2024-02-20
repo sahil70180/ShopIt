@@ -6,6 +6,7 @@ import Header from "./components/layout/Header";
 import { Toaster} from "react-hot-toast"
 import ProductDetails from "./components/product/ProductDetails";
 import LogIn from "./components/auth/LogIn";
+import Register from "./components/auth/Register";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route exact path="/" element={<Home />} />
             <Route exact path="/product/:id" element={<ProductDetails/>} />
             <Route exact path="/login" element={<LogIn/>}/>
+            <Route exact path="/register" element={<Register/>}/>
           </Routes>
         </div>
         <Footer />

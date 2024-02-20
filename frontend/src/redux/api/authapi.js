@@ -15,9 +15,19 @@ export const authApi = createApi({
                     body,
                 }
             }
-        })        
+        }),
+        // Endpoint 2 : Register User
+        register : buidler.mutation({
+            query(body) {
+                return {
+                    url : "/register",
+                    method : "POST",
+                    body,
+                }
+            }
+        })     
     })
 })
 
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation } = authApi;
