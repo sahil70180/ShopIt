@@ -36,10 +36,13 @@ export const authApi = createApi({
                 }
             }
         }),
-        
+        // Endpoint 3 : Logout user 
+        logout : buidler.query({
+            query : () => "/logout",
+        }),     
              
     })
 })
 
 
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useLazyLogoutQuery } = authApi;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRegisterMutation } from '../../redux/api/authapi';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 const Register = () => {
 
@@ -9,6 +9,7 @@ const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
 
     // using regisetr Hook that we made in Redux
     const [register, {isLoading, error}] = useRegisterMutation();
