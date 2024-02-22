@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRegisterMutation } from '../../redux/api/authapi';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
 
@@ -79,6 +80,9 @@ const Register = () => {
           <button id="register_button" type="submit" className="btn w-100 py-2">
             {isLoading ? "Registering..." : "Register"}
           </button>
+          <div className="my-3">
+            <Link to="/login" className="float-end">Already have an Account?</Link>
+          </div>
         </form>
       </div>
     </div>

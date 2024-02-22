@@ -3,8 +3,10 @@ import LOGO from "../../assets/images/shopit_logo.png"
 import { Link } from "react-router-dom"
 import defaultAvatar from "../../assets/images/default_avatar.jpg"
 import Search from './Search'
+import { useGetMeQuery } from '../../redux/api/userApi'
 
 const Header = () => {
+  const {data} = useGetMeQuery();  
   return (
     <div>
       <nav className="navbar row">
@@ -39,7 +41,7 @@ const Header = () => {
                 className="rounded-circle"
               />
             </figure>
-            <span>User</span>
+            <span>Welcome, {data.name}</span>
           </button>
           <div className="dropdown-menu w-100" aria-labelledby="dropDownMenuButton">
             <Link className="dropdown-item" to="/admin/dashboard"> Dashboard </Link>
