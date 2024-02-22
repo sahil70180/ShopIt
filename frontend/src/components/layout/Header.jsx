@@ -1,63 +1,94 @@
-import React from 'react'
-import LOGO from "../../assets/images/shopit_logo.png"
-import { Link } from "react-router-dom"
-import defaultAvatar from "../../assets/images/default_avatar.jpg"
-import Search from './Search'
-import { useGetMeQuery } from '../../redux/api/userApi'
+import React from "react";
+import LOGO from "../../assets/images/shopit_logo.png";
+import { Link } from "react-router-dom";
+import defaultAvatar from "../../assets/images/default_avatar.jpg";
+import Search from "./Search";
+import { useGetMeQuery } from "../../redux/api/userApi";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-  const {data} = useGetMeQuery();  
+  const { isLoading } = useGetMeQuery();
+
+  const { user } = useSelector((state) => state.auth);
   return (
     <div>
       <nav className="navbar row">
-      <div className="col-12 col-md-3 ps-5">
-        <div className="navbar-brand">
-          <Link to="/">
-            <img src={LOGO} alt="ShopIT Logo" />
-          </Link>
-        </div>
-      </div>
-      <div className="col-12 col-md-6 mt-2 mt-md-0">
-        <Search/>
-      </div>
-      <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-        <Link to="/cart">
-          <span id="cart" className="ms-3"> Cart </span>
-          <span className="ms-1" id="cart_count">0</span>
-        </Link>
-
-        <div className="ms-4 dropdown">
-          <button
-            className="btn dropdown-toggle text-white"
-            type="button"
-            id="dropDownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <figure className="avatar avatar-nav">
-              <img
-                src={defaultAvatar}
-                alt="User Avatar"
-                className="rounded-circle"
-              />
-            </figure>
-            <span>Welcome, {data.name}</span>
-          </button>
-          <div className="dropdown-menu w-100" aria-labelledby="dropDownMenuButton">
-            <Link className="dropdown-item" to="/admin/dashboard"> Dashboard </Link>
-
-            <Link className="dropdown-item" to="/me/orders"> Orders </Link>
-
-            <Link className="dropdown-item" to="/me/profile"> Profile </Link>
-
-            <Link className="dropdown-item text-danger" to="/"> Logout </Link>
+        <div className="col-12 col-md-3 ps-5">
+          <div className="navbar-brand">
+            <Link to="/">
+              <img src={LOGO} alt="ShopIT Logo" />
+            </Link>
           </div>
         </div>
-        <Link to="/login" className="btn ms-4" id="login_btn"> Login </Link>
-      </div>
-    </nav>
+        <div className="col-12 col-md-6 mt-2 mt-md-0">
+          <Search />
+        </div>
+        <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
+          <Link to="/cart">
+            <span id="cart" className="ms-3">
+              {" "}
+              Cart{" "}
+            </span>
+            <span className="ms-1" id="cart_count">
+              0
+            </span>
+          </Link>
+
+          {user ? (
+            <div className="ms-4 dropdown">
+              <button
+                className="btn dropdown-toggle text-white"
+                type="button"
+                id="dropDownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <figure className="avatar avatar-nav">
+                  <img
+                    src={user?.avatar ? user.avatar.url : defaultAvatar}
+                    alt="User Avatar"
+                    className="rounded-circle"
+                  />
+                </figure>
+                <span>Welcome, {user?.name}</span>
+              </button>
+              <div
+                className="dropdown-menu w-100"
+                aria-labelledby="dropDownMenuButton"
+              >
+                <Link className="dropdown-item" to="/admin/dashboard">
+                  {" "}
+                  Dashboard{" "}
+                </Link>
+
+                <Link className="dropdown-item" to="/me/orders">
+                  {" "}
+                  Orders{" "}
+                </Link>
+
+                <Link className="dropdown-item" to="/me/profile">
+                  {" "}
+                  Profile{" "}
+                </Link>
+
+                <Link className="dropdown-item text-danger" to="/">
+                  {" "}
+                  Logout{" "}
+                </Link>
+              </div>
+            </div>
+          ) : (
+            !isLoading && (
+              <Link to="/login" className="btn ms-4" id="login_btn">
+                {" "}
+                Login{" "}
+              </Link>
+            )
+          )}
+        </div>
+      </nav>
     </div>
-  )
-}
+  );
+};
 
 export default Header;
