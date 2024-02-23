@@ -22,9 +22,12 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
     password,
     role,
   });
-  const token = user.getJWTToken();
-
-  assignToken(user, 201, res);
+  // const token = user.getJWTToken();
+  // assignToken(user, 201, res);
+  
+  return res.status(200).json({
+    message: "Register Successfully",
+  });
 });
 
 // login User ==> /api/v1/login

@@ -6,6 +6,7 @@ import Search from "./Search";
 import { useGetMeQuery } from "../../redux/api/userApi";
 import { useSelector } from "react-redux";
 import { useLazyLogoutQuery } from "../../redux/api/authapi";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const { isLoading } = useGetMeQuery();
@@ -17,6 +18,7 @@ const Header = () => {
   const handleLogout = async () => {
     await logout();
     navigate(0);
+    toast.success("Logout Successfully");
   }
   return (
     <div>
