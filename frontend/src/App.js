@@ -9,6 +9,7 @@ import LogIn from "./components/auth/LogIn";
 import Register from "./components/auth/Register";
 import Profile from "./components/user/Profile";
 import UpdateUserProfile from "./components/user/UpdateUserProfile";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
   return (
@@ -22,8 +23,16 @@ function App() {
             <Route exact path="/product/:id" element={<ProductDetails/>} />
             <Route exact path="/login" element={<LogIn/>}/>
             <Route exact path="/register" element={<Register/>}/>
-            <Route exact path="/me/profile" element={<Profile/>}/>
-            <Route exact path="/me/update_profile" element={<UpdateUserProfile/>}/>
+            <Route exact path="/me/profile" element={
+            <ProtectedRoute>
+              <Profile/>
+            </ProtectedRoute>
+          }/>
+            <Route exact path="/me/update_profile" element={
+            <ProtectedRoute>
+              <UpdateUserProfile/>
+            </ProtectedRoute>
+            }/>
           </Routes>
         </div>
         <Footer />

@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
-import { setUser, setIsAuthenticated } from "../features/userSlice";
+import { setUser, setIsAuthenticated, setloading } from "../features/userSlice";
 
 export const userApi = createApi({
     reducerPath : "userApi",
@@ -14,7 +14,9 @@ export const userApi = createApi({
                     const {data} = await queryFulfilled;
                     dispatch(setUser(data));
                     dispatch(setIsAuthenticated(true));
+                    dispatch(setloading(false));
                 } catch (error) {
+                    dispatch(setloading(false));
                     console.log(error);
                 }
             },
