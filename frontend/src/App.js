@@ -10,6 +10,7 @@ import Register from "./components/auth/Register";
 import Profile from "./components/user/Profile";
 import UpdateUserProfile from "./components/user/UpdateUserProfile";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import UploadAvatar from "./components/user/UploadAvatar";
 
 function App() {
   return (
@@ -31,6 +32,12 @@ function App() {
             <Route exact path="/me/update_profile" element={
             <ProtectedRoute>
               <UpdateUserProfile/>
+            </ProtectedRoute>
+            }/>
+
+            <Route exact path="/me/upload_avatar" element={
+            <ProtectedRoute>
+              <UploadAvatar/>
             </ProtectedRoute>
             }/>
           </Routes>

@@ -5,6 +5,7 @@ import assignToken from "../utils/assignToken.js";
 import { getResetPasswordTemplate } from "../utils/emailTemplate.js";
 import sendEmail from "../utils/sendEmail.js";
 import crypto from "crypto"
+import { uploadFile } from "../utils/cloudinary.js";
 
 // Register User ==> /api/v1/resister
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -62,6 +63,22 @@ export const logout = catchAsyncErrors(async (req, res, next) => {
     message: "Logged Out",
   });
 });
+
+// upload user avatar ==> /api/v1/me/upload_avatar
+export const uploadAvatar = catchAsyncErrors(async (req, res, next) => {
+
+  const avatarResopnse = await uploadFile(req.body.avatar, "ShopIT/avatar");
+  
+  const user = await User.findByIdAndUpdate(req?.user?._id, {
+    avatar : avatarResopnse,
+  });
+
+  return res.status(200).json({
+    user,
+  });
+});
+
+
 
 // Forgot Password ==> /api/v1/login
 export const forgotPassword = catchAsyncErrors(async (req, res, next) => {

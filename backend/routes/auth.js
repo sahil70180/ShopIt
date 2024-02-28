@@ -12,6 +12,7 @@ import {
   updatePassword,
   updateUser,
   updateUserProfile,
+  uploadAvatar,
 } from "../controllers/authController.js";
 import { authorizeRoles, isAuthenticated } from "../middlewares/auth.js";
 
@@ -26,6 +27,8 @@ router.route("/password/reset/:token").put(resetPassword);
 router.route("/me").get(isAuthenticated, getUseProfile);
 router.route("/me/update").put(isAuthenticated, updateUserProfile);
 router.route("/password/update").put(isAuthenticated, updatePassword);
+
+router.route("/me/upload_avatar").put(isAuthenticated, uploadAvatar);
 
 router
   .route("/admin/users")
