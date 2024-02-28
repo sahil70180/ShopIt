@@ -13,7 +13,7 @@ const Profile = () => {
             <img
               className="rounded-circle img-fluid"
               src={user?.avatar ? user.avatar.url : defaultAvatar}
-              alt={user.name}
+              alt={user?.name}
             />
           </figure>
         </div>

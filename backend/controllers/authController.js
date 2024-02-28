@@ -173,11 +173,11 @@ export const updateUserProfile = catchAsyncErrors(async (req, res, next) =>{
     email: req.body.email
   }
   
-  const email = req.body.email
-  const existingUseremail  = await User.findOne({email});
-  if(existingUseremail){
-    return next(new ErrorHandler("Email Already Exist with another account.", 400));
-  }
+  // const email = req.body.email
+  // const existingUseremail  = await User.findOne({email});
+  // if(existingUseremail){
+  //   return next(new ErrorHandler("Email Already Exist with another account.", 400));
+  // }
 
   const user = await User.findByIdAndUpdate(req.user._id, newUserData, {new : true});
 
