@@ -5,7 +5,7 @@ import assignToken from "../utils/assignToken.js";
 import { getResetPasswordTemplate } from "../utils/emailTemplate.js";
 import sendEmail from "../utils/sendEmail.js";
 import crypto from "crypto"
-import { uploadFile } from "../utils/cloudinary.js";
+import { deleteFile, uploadFile } from "../utils/cloudinary.js";
 
 // Register User ==> /api/v1/resister
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -68,6 +68,11 @@ export const logout = catchAsyncErrors(async (req, res, next) => {
 export const uploadAvatar = catchAsyncErrors(async (req, res, next) => {
 
   const avatarResopnse = await uploadFile(req.body.avatar, "ShopIT/avatar");
+
+  // Remove previous avatar of that user
+  if(req?.user?.avtar?.url){
+    await deleteFile(req?.user?.avatar?.public_id);
+  } 
   
   const user = await User.findByIdAndUpdate(req?.user?._id, {
     avatar : avatarResopnse,
