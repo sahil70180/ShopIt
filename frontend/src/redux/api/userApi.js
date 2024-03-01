@@ -60,7 +60,16 @@ export const userApi = createApi({
                 }
             },
         }),
+        resetPassword : builder.mutation({
+            query({token, body}) {
+                return {
+                    url : `/password/reset/${token}`,
+                    method : "PUT",
+                    body,
+                }
+            },
+        }),
     }),
 });
 
-export const {useGetMeQuery, useUpdateProfileMutation, useUploadAvatarMutation, useUpdatePasswordMutation, useForgotPasswordMutation} = userApi;
+export const {useGetMeQuery, useUpdateProfileMutation, useUploadAvatarMutation, useUpdatePasswordMutation, useForgotPasswordMutation, useResetPasswordMutation} = userApi;

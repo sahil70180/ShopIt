@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UploadAvatar from "./components/user/UploadAvatar";
 import UpdatePassword from "./components/user/UpdatePassword";
 import ForgotPassword from "./components/auth/ForgotPassword";
+import ResetPassword from "./components/auth/ResetPassword";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
             </ProtectedRoute>
             }/>
             <Route exact path="/password/forgot" element={<ForgotPassword/>}/>
+            <Route exact path="/password/reset/:token" element={<ResetPassword/>}/>
           </Routes>
         </div>
         <Footer />
