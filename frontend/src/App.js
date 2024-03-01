@@ -11,6 +11,7 @@ import Profile from "./components/user/Profile";
 import UpdateUserProfile from "./components/user/UpdateUserProfile";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UploadAvatar from "./components/user/UploadAvatar";
+import UpdatePassword from "./components/user/UpdatePassword";
 
 function App() {
   return (
@@ -38,6 +39,12 @@ function App() {
             <Route exact path="/me/upload_avatar" element={
             <ProtectedRoute>
               <UploadAvatar/>
+            </ProtectedRoute>
+            }/>
+
+            <Route exact path="/me/update_password" element={
+            <ProtectedRoute>
+              <UpdatePassword/>
             </ProtectedRoute>
             }/>
           </Routes>

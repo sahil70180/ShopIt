@@ -31,7 +31,7 @@ const UpdateUserProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     const userData = {
       name,
       email,
