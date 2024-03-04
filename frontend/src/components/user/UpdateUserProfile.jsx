@@ -27,7 +27,7 @@ const UpdateUserProfile = () => {
       toast.success("Profile Updated Successfully");
       navigate("/me/profile");
     }
-  }, [user, error, isSuccess]);
+  }, [user, error, isSuccess, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

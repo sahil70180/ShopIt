@@ -21,9 +21,9 @@ const UpdatePassword = () => {
       toast.success("Password Updated");
       navigate("/me/profile");
     }
-  }, [error, isSuccess]);
+  }, [error, isSuccess, navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if(!oldPassword || !password){
@@ -34,7 +34,7 @@ const UpdatePassword = () => {
       oldPassword,
       password,
     };
-    updatePassword(userData);
+    await updatePassword(userData);
     setOladpassword("");
     setPassword("");
   };

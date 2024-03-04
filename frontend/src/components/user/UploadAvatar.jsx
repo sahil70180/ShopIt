@@ -25,7 +25,7 @@ const UploadAvatar = () => {
       toast.success("Avatar Uploaded");
       navigate("/me/profile");
     }
-  }, [error, isLoading, isSuccess]);
+  }, [error, isLoading, isSuccess, navigate]);
 
   const handleChange = (e) => {
     const reader = new FileReader();
