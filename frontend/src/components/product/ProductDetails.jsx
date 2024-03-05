@@ -11,7 +11,7 @@ const ProductDetails = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
-  const [qunatity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [activeImg, setactiveImg] = useState("");
 
   const { data, isLoading, error, isError } = useGetProductDetailsQuery(
@@ -59,7 +59,7 @@ const ProductDetails = () => {
       price : product?.price,
       image : product?.images[0]?.url,
       stock : product?.stock,
-      qunatity
+      quantity
     };
     await dispatch(setCartItem(cartItem));
     toast.success("Item added to Cart Successfully")
@@ -127,7 +127,7 @@ const ProductDetails = () => {
           <input
             type="number"
             className="form-control count d-inline"
-            value={qunatity}
+            value={quantity}
             readonly
           />
           <span className="btn btn-primary plus" onClick={increaseQty}>+</span>
