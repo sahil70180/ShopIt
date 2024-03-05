@@ -52,7 +52,7 @@ const ProductDetails = () => {
     setQuantity(qty);
   }
 
-  const setItemToCart = () => {
+  const setItemToCart = async () => {
     const cartItem = {
       product  : product?._id,
       name : product?.name,
@@ -61,8 +61,8 @@ const ProductDetails = () => {
       stock : product?.stock,
       qunatity
     };
-
-    dispatch(setCartItem(cartItem));
+    await dispatch(setCartItem(cartItem));
+    toast.success("Item added to Cart Successfully")
   };
 
   if (isLoading) {

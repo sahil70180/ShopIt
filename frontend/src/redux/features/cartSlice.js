@@ -12,14 +12,12 @@ export const cartSlice = createSlice({
   reducers: {
     setCartItem: (state, action) => {
       const item = action.payload;
-      console.log(item);
-      console.log(state.cartItems);
 
       // checking item already exist or not in the cartitem array
       const isItemExist = state.cartItems.find(
         (i) => i.product === item.product
       );
-      
+
       if (isItemExist) {
         // if exist the update the item
         state.cartItems = state.cartItems.map((i) =>
@@ -27,9 +25,8 @@ export const cartSlice = createSlice({
         );
       } else {
         // add new itmes
-        state.cartItems = { ...state.cartItems, item };
+        state.cartItems = [...state.cartItems, item];
       }
-
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
   },
