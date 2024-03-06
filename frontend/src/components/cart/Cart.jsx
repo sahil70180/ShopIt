@@ -1,10 +1,44 @@
 import React from "react";
 import MetaData from "../layout/MetaData";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast"
+import { setCartItem } from "../../redux/features/cartSlice";
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
+
+  const increaseQty = (item, quantity) => {
+    const newQty = quantity + 1;
+
+    if(newQty > item?.stock){
+      return toast.error("Out of Stock");
+    }
+    setItemToCart(item, newQty);
+  }
+
+  const decreaseQty = (item, quantity) => {
+    const newQty = quantity - 1;
+
+    if(newQty <=0){
+      return toast.error("Cannot Select less than 1");
+    }
+    setItemToCart(item, newQty);
+  }
+
+  const setItemToCart = async (item, newQty) => {
+    const cartItem = {
+      product  : item?.product,
+      name : item?.name,
+      price : item?.price,
+      image : item?.image,
+      stock : item?.stock,
+      quantity : newQty
+    };
+    await dispatch(setCartItem(cartItem));
+    toast.success("Cart Updated")
+  };
 
   return (
     <>
@@ -39,14 +73,14 @@ const Cart = () => {
                       </div>
                       <div className="col-4 col-lg-3 mt-4 mt-lg-0">
                         <div className="stockCounter d-inline">
-                          <span className="btn btn-danger minus"> - </span>
+                          <span className="btn btn-danger minus" onClick={() => decreaseQty(item, item.quantity)}> - </span>
                           <input
                             type="number"
                             className="form-control count d-inline"
                             value={item?.quantity}
                             readonly
                           />
-                          <span className="btn btn-primary plus"> + </span>
+                          <span className="btn btn-primary plus" onClick={() => increaseQty(item, item.quantity)}> + </span>
                         </div>
                       </div>
                       <div className="col-4 col-lg-1 mt-4 mt-lg-0">
