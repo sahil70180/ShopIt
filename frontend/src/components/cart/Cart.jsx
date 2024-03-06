@@ -3,7 +3,7 @@ import MetaData from "../layout/MetaData";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast"
-import { setCartItem } from "../../redux/features/cartSlice";
+import { setCartItem, removeCartItem } from "../../redux/features/cartSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -39,6 +39,10 @@ const Cart = () => {
     await dispatch(setCartItem(cartItem));
     toast.success("Cart Updated")
   };
+
+  const removeCartItemHandler = (id) => {
+    dispatch(removeCartItem(id));
+  }
 
   return (
     <>
@@ -80,13 +84,14 @@ const Cart = () => {
                             value={item?.quantity}
                             readonly
                           />
-                          <span className="btn btn-primary plus" onClick={() => increaseQty(item, item.quantity)}> + </span>
+                          <span className="btn btn-primary plus" onClick={() => increaseQty(item, item?.quantity)}> + </span>
                         </div>
                       </div>
                       <div className="col-4 col-lg-1 mt-4 mt-lg-0">
                         <i
                           id="delete_cart_item"
                           className="fa fa-trash btn btn-danger"
+                          onClick={() => removeCartItemHandler(item?.product)}
                         ></i>
                       </div>
                     </div>
