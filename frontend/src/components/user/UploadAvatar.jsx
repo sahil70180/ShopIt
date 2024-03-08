@@ -5,6 +5,7 @@ import { useUploadAvatarMutation } from "../../redux/api/userApi";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import defaultAvatar from "../../assets/images/default_avatar.jpg";
+import MetaData from "../layout/MetaData";
 
 const UploadAvatar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -45,17 +46,16 @@ const UploadAvatar = () => {
     const userData = {
       avatar,
     };
-    console.log(userData);
-
     UploadAvatar(userData);
   };
   return (
+    <>
+   <MetaData title="Upload Avatar"/>   
     <UserLayout>
       <div className="row wrapper">
         <div className="col-10 col-lg-8">
           <form className="shadow rounded bg-body" onSubmit={handleSubmit}>
             <h2 className="mb-4">Upload Avatar</h2>
-
             <div className="mb-3">
               <div className="d-flex align-items-center">
                 <div className="me-3">
@@ -64,7 +64,7 @@ const UploadAvatar = () => {
                       src={avatarPreview}
                       className="rounded-circle"
                       alt=""
-                    />
+                      />
                   </figure>
                 </div>
                 <div className="input-foam">
@@ -78,7 +78,7 @@ const UploadAvatar = () => {
                     id="customFile"
                     accept="images/*"
                     onChange={handleChange}
-                  />
+                    />
                 </div>
               </div>
             </div>
@@ -88,13 +88,14 @@ const UploadAvatar = () => {
               type="submit"
               className="btn w-100 py-2"
               disabled={isLoading}
-            >
+              >
               {isLoading ? "Uploading..." : "Upload"}
             </button>
           </form>
         </div>
       </div>
     </UserLayout>
+              </>
   );
 };
 

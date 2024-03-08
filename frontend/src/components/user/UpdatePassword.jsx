@@ -3,6 +3,7 @@ import UserLayout from "../layout/UserLayout";
 import { useNavigate } from "react-router-dom";
 import { useUpdatePasswordMutation } from "../../redux/api/userApi";
 import toast from "react-hot-toast";
+import MetaData from "../layout/MetaData";
 
 const UpdatePassword = () => {
   const [oldPassword, setOladpassword] = useState("");
@@ -40,6 +41,8 @@ const UpdatePassword = () => {
   };
 
   return (
+    <>
+    <MetaData title="Update Password"/>
     <UserLayout>
       <div className="row wrapper">
         <div className="col-10 col-lg-8">
@@ -55,7 +58,7 @@ const UpdatePassword = () => {
                 className="form-control"
                 value={oldPassword}
                 onChange={(e) => setOladpassword(e.target.value)}
-              />
+                />
             </div>
 
             <div className="mb-3">
@@ -68,7 +71,7 @@ const UpdatePassword = () => {
                 className="form-control"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              />
+                />
             </div>
 
             <button type="submit" className="btn update-btn w-100" disabled={isLoading}>
@@ -78,6 +81,7 @@ const UpdatePassword = () => {
         </div>
       </div>
     </UserLayout>
+                </>
   );
 };
 

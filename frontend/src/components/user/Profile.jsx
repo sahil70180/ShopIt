@@ -2,10 +2,13 @@ import React from "react";
 import UserLayout from "../layout/UserLayout";
 import { useSelector } from "react-redux";
 import defaultAvatar from "../../assets/images/default_avatar.jpg";
+import MetaData from "../layout/MetaData";
 
 const Profile = () => {
   const {user} = useSelector((state) => state.auth);
   return (
+    <>
+    <MetaData title="Your Profile" />
     <UserLayout>
       <div className="row justify-content-around mt-5 user-info">
         <div className="col-12 col-md-3">
@@ -14,7 +17,7 @@ const Profile = () => {
               className="rounded-circle img-fluid"
               src={user?.avatar ? user.avatar.url : defaultAvatar}
               alt={user?.name}
-            />
+              />
           </figure>
         </div>
 
@@ -30,6 +33,7 @@ const Profile = () => {
         </div>
       </div>
     </UserLayout>
+              </>
   );
 };
 
