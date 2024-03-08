@@ -42,6 +42,7 @@ const Cart = () => {
 
   const removeCartItemHandler = (id) => {
     dispatch(removeCartItem(id));
+    toast.success("Item Removed from the cart!!")
   }
 
   return (

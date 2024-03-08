@@ -6,6 +6,7 @@ import Loader from "../layout/Loader";
 import StarRatings from "react-star-ratings";
 import { useDispatch } from "react-redux";
 import { setCartItem } from "../../redux/features/cartSlice";
+import MetaData from "../layout/MetaData";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -69,6 +70,8 @@ const ProductDetails = () => {
     return <Loader />;
   }
   return (
+    <>
+    <MetaData title={`${product.name}`} />
     <div className="row d-flex justify-content-around">
       <div className="col-12 col-lg-5 img-fluid" id="product_image">
         <div className="p-3">
@@ -129,7 +132,7 @@ const ProductDetails = () => {
             className="form-control count d-inline"
             value={quantity}
             readonly
-          />
+            />
           <span className="btn btn-primary plus" onClick={increaseQty}>+</span>
         </div>
         <button
@@ -149,7 +152,7 @@ const ProductDetails = () => {
           <span
             id="stock_status"
             className={product?.stock > 0 ? "greenColor" : "redColor"}
-          >
+            >
             {product?.stock > 0 ? "In Stock" : "Out Of Stock"}
           </span>
         </p>
@@ -168,6 +171,7 @@ const ProductDetails = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -3,6 +3,7 @@ import { useRegisterMutation } from "../../redux/api/authapi";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import MetaData from "../layout/MetaData";
 
 const Register = () => {
   // setting up the sates
@@ -49,13 +50,15 @@ const Register = () => {
   }
 
   return (
+    <>
+    <MetaData title={"Register"} />
     <div className="row wrapper">
       <div className="col-10 col-lg-5">
         <form
           className="shadow rounded bg-body"
           onSubmit={handleFormSubmit}
           enctype="multipart/form-data"
-        >
+          >
           <h2 className="mb-4">Register</h2>
           <div className="mb-3">
             <label htmlFor="name_field" className="form-label">
@@ -68,7 +71,7 @@ const Register = () => {
               name="name"
               value={name}
               onChange={handleInputChange}
-            />
+              />
           </div>
 
           <div className="mb-3">
@@ -82,7 +85,7 @@ const Register = () => {
               name="email"
               value={email}
               onChange={handleInputChange}
-            />
+              />
           </div>
 
           <div className="mb-3">
@@ -96,7 +99,7 @@ const Register = () => {
               name="password"
               value={password}
               onChange={handleInputChange}
-            />
+              />
           </div>
 
           <button id="register_button" type="submit" className="btn w-100 py-2" disabled={isLoading}>
@@ -110,6 +113,7 @@ const Register = () => {
         </form>
       </div>
     </div>
+              </>
   );
 };
 

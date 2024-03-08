@@ -3,6 +3,7 @@ import { useForgotPasswordMutation } from '../../redux/api/userApi';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import MetaData from '../layout/MetaData';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState("");
@@ -37,6 +38,8 @@ const ForgotPassword = () => {
     }
 
   return (
+    <>
+    <MetaData title={"Forgot Password"} />
     <div className="row wrapper">
       <div className="col-10 col-lg-5">
         <form
@@ -61,13 +64,14 @@ const ForgotPassword = () => {
             type="submit"
             className="btn w-100 py-2"
             disabled={isLoading}
-          >
+            >
             { isLoading ? "Sending Email..." : "Send Email"}
           </button>
         </form>
       </div>
     </div>
 
+            </>
   )
 }
 
