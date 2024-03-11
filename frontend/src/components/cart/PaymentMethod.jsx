@@ -3,7 +3,7 @@ import MetaData from "../layout/MetaData";
 import CheckoutSteps from "./CheckoutSteps";
 import { useSelector } from "react-redux";
 import { calculateOrderCost } from "../../helpers/helper";
-import { useCreateNewOrderMutation } from "../../redux/api/orderApi";
+import { useCreateNewOrderMutation, useStripeCheckoutSessionMutation } from "../../redux/api/orderApi";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +17,19 @@ const PaymentMethod = () => {
     const {itemPrice, shippingPrice, taxPrice, totalPrice} = calculateOrderCost(cartItems);
 
     const [createNewOrder, {error, isSuccess }]= useCreateNewOrderMutation();
+    const [stripeCheckoutSession, {data : checkoutData, error : checkoutError, isLoading}] = useStripeCheckoutSessionMutation();
 
+    // for Card
+    useEffect(() => {
+        if(checkoutData){
+            window.location.href = checkoutData?.url
+        }
+        if(checkoutError){
+            toast.error(checkoutError?.data?.message)
+        }
+    },[checkoutData, checkoutError]);
+
+    // for order COD 
     useEffect(() => {
         if(error){
             toast.error(error?.data?.message)
@@ -26,7 +38,7 @@ const PaymentMethod = () => {
             toast.success("Order Placed Successfuly")
             navigate("/");
         }
-    }, [error, isSuccess])
+    }, [error, isSuccess, navigate])
 
     const paymenthandler = (e) => {
         e.preventDefault();
@@ -49,7 +61,16 @@ const PaymentMethod = () => {
         }
         if(method === "Card"){
             // create order using Strip 
-            alert("Card")
+            const orderData = {
+                shippingInfo,
+                orderitems : cartItems,
+                itemsPrice : itemPrice,
+                shippingAmount : shippingPrice,
+                taxAmount :taxPrice,
+                totalAmount : totalPrice,                
+            };
+            // console.log(orderData);
+            stripeCheckoutSession(orderData);
         }
     }
   return (
@@ -91,8 +112,8 @@ const PaymentMethod = () => {
               </label>
             </div>
 
-            <button id="shipping_btn" type="submit" className="btn py-2 w-100">
-              CONTINUE
+            <button id="shipping_btn" type="submit" className="btn py-2 w-100" disabled={isLoading}>
+              {isLoading ? "Connecting...": "Continue"}
             </button>
           </form>
         </div>

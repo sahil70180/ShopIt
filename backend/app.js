@@ -31,10 +31,14 @@ import authRoutes from "./routes/auth.js"
 // import order router 
 import orderRoutes from "./routes/order.js"
 
+// payment routes 
+import paymentRoutes from "./routes/payment.js"
+
 
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", orderRoutes);
+app.use("/api/v1", paymentRoutes);
 
 // using error middlewares 
 app.use(errorMiddleware);
