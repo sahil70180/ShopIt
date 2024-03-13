@@ -16,7 +16,12 @@ dotenv.config({path : 'backend/config/config.env'});
 
 connectToDatabase();
 
-app.use(express.json({limit : "10mb"}));
+app.use(express.json({
+    limit : "10mb",
+    verify : (req, res, buf)=> {
+        req.rawbody = buf.toString();
+    }
+}));
 
 // import EN Variables 
 const PORT = process.env.BACKEND_PORT;
