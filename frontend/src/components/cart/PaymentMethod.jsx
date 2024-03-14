@@ -17,7 +17,7 @@ const PaymentMethod = () => {
     const {itemPrice, shippingPrice, taxPrice, totalPrice} = calculateOrderCost(cartItems);
 
     const [createNewOrder, {error, isSuccess }]= useCreateNewOrderMutation();
-    const [stripeCheckoutSession, {data : checkoutData, error : checkoutError, isLoading}] = useStripeCheckoutSessionMutation();
+    const [stripeCheckoutSession, {data : checkoutData, error : checkoutError, isLoading, isSuccess : success}] = useStripeCheckoutSessionMutation();
 
     // for Card
     useEffect(() => {
@@ -26,6 +26,9 @@ const PaymentMethod = () => {
         }
         if(checkoutError){
             toast.error(checkoutError?.data?.message)
+        }
+        if(success){
+          toast.success("Order Placed Successfully..")
         }
     },[checkoutData, checkoutError]);
 
@@ -47,7 +50,7 @@ const PaymentMethod = () => {
             // create order for COD 
             const orderData = {
                 shippingInfo,
-                orderitems : cartItems,
+                orderItems : cartItems,
                 itemsPrice : itemPrice,
                 shippingAmount : shippingPrice,
                 taxAmount :taxPrice,

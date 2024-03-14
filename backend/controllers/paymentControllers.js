@@ -107,7 +107,7 @@ export const stripeWebhook = catchAsyncErrors(async (req, res, next) => {
             country : session.metadata.country,
         };
 
-        const payementInfo = {
+        const paymentInfo = {
             id : session.payment_intent,
             status : session.payment_status,
         }
@@ -119,7 +119,7 @@ export const stripeWebhook = catchAsyncErrors(async (req, res, next) => {
             taxAmount,
             shippingAmount,
             totalAmount,
-            payementInfo,
+            paymentInfo,
             paymentMethod : "Card",
             user,
         }

@@ -15,6 +15,7 @@ export const newOrder = catchAsyncErrors(async (req, res, next) => {
     paymentMethod,
     paymentInfo,
   } = req.body;
+  // console.log("here");
 
   const order = await Order.create({
     orderItems,
@@ -27,6 +28,7 @@ export const newOrder = catchAsyncErrors(async (req, res, next) => {
     paymentInfo,
     user : req.user._id,
   })
+  // console.log(order);
 
   res.status(200).json({
     message :"create Successfully",
