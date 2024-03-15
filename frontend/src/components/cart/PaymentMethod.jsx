@@ -17,7 +17,7 @@ const PaymentMethod = () => {
     const {itemPrice, shippingPrice, taxPrice, totalPrice} = calculateOrderCost(cartItems);
 
     const [createNewOrder, {error, isSuccess }]= useCreateNewOrderMutation();
-    const [stripeCheckoutSession, {data : checkoutData, error : checkoutError, isLoading, isSuccess : success}] = useStripeCheckoutSessionMutation();
+    const [stripeCheckoutSession, {data : checkoutData, error : checkoutError, isLoading}] = useStripeCheckoutSessionMutation();
 
     // for Card
     useEffect(() => {
@@ -27,9 +27,6 @@ const PaymentMethod = () => {
         if(checkoutError){
             toast.error(checkoutError?.data?.message)
         }
-        if(success){
-          toast.success("Order Placed Successfully..")
-        }
     },[checkoutData, checkoutError]);
 
     // for order COD 
@@ -38,12 +35,12 @@ const PaymentMethod = () => {
             toast.error(error?.data?.message)
         }
         if(isSuccess){
-            toast.success("Order Placed Successfuly")
+            // toast.success("Order Placed Successfuly")
             navigate("/");
         }
     }, [error, isSuccess, navigate])
 
-    const paymenthandler = (e) => {
+    const paymenthandler = async (e) => {
         e.preventDefault();
 
         if(method === "COD"){
@@ -60,7 +57,8 @@ const PaymentMethod = () => {
                 },
                 paymentMethod : "COD",                
             };
-            createNewOrder(orderData);           
+            await createNewOrder(orderData); 
+            toast.success("Order Created")          
         }
         if(method === "Card"){
             // create order using Strip 

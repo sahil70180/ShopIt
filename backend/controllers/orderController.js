@@ -55,12 +55,6 @@ export const myOrders = catchAsyncErrors(async (req, res, next) =>{
   if(!order){
     return next(new Errorhandler("No Orders Found", 404));
   }
-
-  // if you recieve empyt array it means you did'nt order anything
-  if(order.length == 0){
-    return next(new Errorhandler("You have no orders till now", 404))
-  }
-
   res.status(200).json({
     message : "Your Order Details Fetched Successfully",
     order,
