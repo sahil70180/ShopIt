@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useGetProductDetailsQuery } from "../../redux/api/productApi";
 import toast from "react-hot-toast";
 import Loader from "../layout/Loader";
 import StarRatings from "react-star-ratings";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCartItem } from "../../redux/features/cartSlice";
 import MetaData from "../layout/MetaData";
 
@@ -19,6 +19,8 @@ const ProductDetails = () => {
     params?.id
   );
   const product = data?.product;
+
+  const {isAuthenticated} = useSelector((state) => state.auth);
 
 
   useEffect(() => {
@@ -166,8 +168,8 @@ const ProductDetails = () => {
           Sold by: <strong>{product?.seller}</strong>
         </p>
 
-        <div className="alert alert-danger my-5" type="alert">
-          Login to post your review.
+        <div className={isAuthenticated ?  "alert alert-success my-5" :  "alert alert-danger my-5"} type="alert">
+          {isAuthenticated ? "Post a Review" : "Login to post your review."}
         </div>
       </div>
     </div>

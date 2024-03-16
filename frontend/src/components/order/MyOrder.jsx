@@ -55,7 +55,7 @@ const MyOrder = () => {
         actions: (
           <>
             <Link
-              to={`/me/orders/${order?._id}`}
+              to={`/orders/${order?._id}`}
               className="btn btn-primary ms-2"
             >
               <i className="fa fa-eye"></i>
@@ -79,7 +79,7 @@ const MyOrder = () => {
 
   return (
     <div>
-      <MetaData title={"Your Orders"} />
+      <MetaData title={"My Orders"} />
       {data?.order?.length > 0 ? (
         <>
           <h1 className="my-5">Total Orders : {data?.order?.length}</h1>

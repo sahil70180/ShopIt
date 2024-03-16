@@ -1,7 +1,7 @@
 import { createApi , fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 export const orderApi = createApi({
-    reducerPath : "rrderApi",
+    reducerPath : "orderApi",
     baseQuery : fetchBaseQuery({baseUrl : "/api/v1"}),
     endpoints : (builder) => ({
         createNewOrder : builder.mutation({
@@ -16,6 +16,9 @@ export const orderApi = createApi({
         myOders : builder.query({
             query :() => `/me/orders`
         }),
+        orderDetails : builder.query({
+            query :(id) => `/orders/${id}`
+        }),
         stripeCheckoutSession : builder.mutation({
             query(body)  {
                 return {
@@ -28,4 +31,4 @@ export const orderApi = createApi({
     }),
 });
 
-export const { useCreateNewOrderMutation, useStripeCheckoutSessionMutation, useMyOdersQuery } = orderApi;
+export const { useCreateNewOrderMutation, useStripeCheckoutSessionMutation, useMyOdersQuery, useOrderDetailsQuery } = orderApi;

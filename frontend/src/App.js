@@ -19,6 +19,7 @@ import Shipping from "./components/cart/Shipping";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
 import PaymentMethod from "./components/cart/PaymentMethod";
 import MyOrder from "./components/order/MyOrder";
+import Orderdetails from "./components/order/Orderdetails";
 
 function App() {
   return (
@@ -79,6 +80,11 @@ function App() {
             <Route exact path="/me/orders" element={
               <ProtectedRoute>
                 <MyOrder/>
+              </ProtectedRoute>
+            }/>
+            <Route exact path="/orders/:id" element={
+              <ProtectedRoute>
+                <Orderdetails/>
               </ProtectedRoute>
             }/>
           </Routes>
