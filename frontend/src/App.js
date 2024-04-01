@@ -20,6 +20,7 @@ import ConfirmOrder from "./components/cart/ConfirmOrder";
 import PaymentMethod from "./components/cart/PaymentMethod";
 import MyOrder from "./components/order/MyOrder";
 import Orderdetails from "./components/order/Orderdetails";
+import Invoice from "./components/invoice/Invoice";
 
 function App() {
   return (
@@ -85,6 +86,11 @@ function App() {
             <Route exact path="/orders/:id" element={
               <ProtectedRoute>
                 <Orderdetails/>
+              </ProtectedRoute>
+            }/>
+            <Route exact path="/invoice/orders/:id" element={
+              <ProtectedRoute>
+                <Invoice/>
               </ProtectedRoute>
             }/>
           </Routes>

@@ -26,7 +26,7 @@ const MyOrder = () => {
       navigate("/me/orders")
 
     }
-  }, [error, orderSuccess]);
+  }, [error, orderSuccess, dispatch, navigate]);
 
   const setOrders = () => {
     const orders = {
