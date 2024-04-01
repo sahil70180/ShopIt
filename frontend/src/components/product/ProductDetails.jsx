@@ -7,6 +7,7 @@ import StarRatings from "react-star-ratings";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartItem } from "../../redux/features/cartSlice";
 import MetaData from "../layout/MetaData";
+import NewReview from "../reviews/NewReview";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -168,9 +169,12 @@ const ProductDetails = () => {
           Sold by: <strong>{product?.seller}</strong>
         </p>
 
-        <div className={isAuthenticated ?  "alert alert-success my-5" :  "alert alert-danger my-5"} type="alert">
-          {isAuthenticated ? "Post a Review" : "Login to post your review."}
+        {isAuthenticated ? (<NewReview productId={product?._id} />) :(
+        <div className={"alert alert-danger my-5"} type="alert">
+          Login to post your review
         </div>
+        ) }
+
       </div>
     </div>
     </>
