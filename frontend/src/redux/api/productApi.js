@@ -5,6 +5,7 @@ import { createApi , fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 export const productApi = createApi({
     reducerPath : 'productApi',
     baseQuery : fetchBaseQuery({baseUrl : "/api/v1"}),
+    tagTypes :  ["Product"],
     endpoints : (buidler) => ({
 
         // Endpoint 1 : Get All products
@@ -24,6 +25,7 @@ export const productApi = createApi({
         // Endpoint 2 : Get Particular Product Details
         getProductDetails : buidler.query({
             query : ( id ) => `/products/${id}`,
+            providesTags : ["Product"]
         }),
         submitReview : buidler.mutation({
             query(body) {
@@ -32,7 +34,8 @@ export const productApi = createApi({
                     method : "PUT",
                     body,
                 };
-            }
+            },
+            invalidatesTags : ["Product"]
         })
     })
 })
