@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import StarRatings from "react-star-ratings";
-import { useSubmitReviewMutation } from "../../redux/api/productApi";
+import { useCanUserReviewQuery, useSubmitReviewMutation } from "../../redux/api/productApi";
 import toast from "react-hot-toast";
 
 const NewReview = ({productId}) => {
@@ -8,6 +8,10 @@ const NewReview = ({productId}) => {
     const [comment, setComment] = useState('');
 
     const [submitReview,  {error, isSuccess}]  = useSubmitReviewMutation();
+
+    const {data} = useCanUserReviewQuery(productId);
+
+    const canReview = data?.canUserReview;
 
     useEffect(() => {
         if(error){
@@ -25,6 +29,7 @@ const NewReview = ({productId}) => {
 
   return (
     <div>
+      {canReview && (
       <button
         id="review_btn"
         type="button"
@@ -34,6 +39,7 @@ const NewReview = ({productId}) => {
       >
         Submit Your Review
       </button>
+      )}
 
       <div className="row mt-2 mb-5">
         <div className="rating w-50">

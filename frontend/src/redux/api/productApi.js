@@ -36,6 +36,9 @@ export const productApi = createApi({
                 };
             },
             invalidatesTags : ["Product"]
+        }),
+        canUserReview : buidler.query({
+            query : (productId) => `/can_review/?productId=${productId}`,
         })
     })
 })
@@ -43,4 +46,4 @@ export const productApi = createApi({
 // getProducts is a endpoint name, and now we have to export it like a hook (RTK documentation)
 // the reason for exporting hook is that we can use isLoading, iserro and all these varaibles directly 
 
-export const  { useGetProductsQuery, useGetProductDetailsQuery, useSubmitReviewMutation} = productApi
+export const  { useGetProductsQuery, useGetProductDetailsQuery, useSubmitReviewMutation, useCanUserReviewQuery} = productApi

@@ -3,7 +3,6 @@ import defaultimage from "../../assets/images/default_avatar.jpg";
 import StarRatings from "react-star-ratings";
 
 const ListReviews = ({ reviews }) => {
-  console.log(reviews);
   return (
     <div class="reviews w-75">
       <h3>Other's Reviews:</h3>
