@@ -24,7 +24,7 @@ export const getProdcuts = catchAsyncErrors(async (req, res, next) =>{
     });
 })
 
-// create new Product (ADMIN ROUTE) ==> /api/v1/admin/create
+// create new Product (ADMIN ROUTE) ==> /api/v1/admin/product/new
 export const newProduct = catchAsyncErrors(async (req, res) =>{
 
     req.body.user = req.user._id;
