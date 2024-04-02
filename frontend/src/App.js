@@ -1,28 +1,15 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
+import { BrowserRouter, Routes } from "react-router-dom";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import { Toaster} from "react-hot-toast"
-import ProductDetails from "./components/product/ProductDetails";
-import LogIn from "./components/auth/LogIn";
-import Register from "./components/auth/Register";
-import Profile from "./components/user/Profile";
-import UpdateUserProfile from "./components/user/UpdateUserProfile";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
-import UploadAvatar from "./components/user/UploadAvatar";
-import UpdatePassword from "./components/user/UpdatePassword";
-import ForgotPassword from "./components/auth/ForgotPassword";
-import ResetPassword from "./components/auth/ResetPassword";
-import Cart from "./components/cart/Cart";
-import Shipping from "./components/cart/Shipping";
-import ConfirmOrder from "./components/cart/ConfirmOrder";
-import PaymentMethod from "./components/cart/PaymentMethod";
-import MyOrder from "./components/order/MyOrder";
-import Orderdetails from "./components/order/Orderdetails";
-import Invoice from "./components/invoice/Invoice";
+import useUserRoutes from "./components/routes/UserRoutes";
+import useAdminRoutes from "./components/routes/AdminRoutes";
 
 function App() {
+  const userRoutes = useUserRoutes();
+  const adminRoutes = useAdminRoutes();
+
   return (
     <BrowserRouter>
       <div className="App">
@@ -30,69 +17,8 @@ function App() {
         <Header />
         <div className="container">
           <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/product/:id" element={<ProductDetails/>} />
-            <Route exact path="/login" element={<LogIn/>}/>
-            <Route exact path="/register" element={<Register/>}/>
-            <Route exact path="/me/profile" element={
-            <ProtectedRoute>
-              <Profile/>
-            </ProtectedRoute>
-          }/>
-            <Route exact path="/me/update_profile" element={
-            <ProtectedRoute>
-              <UpdateUserProfile/>
-            </ProtectedRoute>
-            }/>
-
-            <Route exact path="/me/upload_avatar" element={
-            <ProtectedRoute>
-              <UploadAvatar/>
-            </ProtectedRoute>
-            }/>
-
-            <Route exact path="/me/update_password" element={
-            <ProtectedRoute>
-              <UpdatePassword/>
-            </ProtectedRoute>
-            }/>
-            <Route exact path="/password/forgot" element={<ForgotPassword/>}/>
-            <Route exact path="/password/reset/:token" element={<ResetPassword/>}/>
-            <Route exact path="/cart" element={
-              <ProtectedRoute>
-              <Cart/>
-              </ProtectedRoute>
-            }/>
-            <Route exact path="/shipping" element={
-            <ProtectedRoute>
-              <Shipping/>
-            </ProtectedRoute>
-            }/>
-            <Route exact path="/confirm_order" element={
-              <ProtectedRoute>
-                <ConfirmOrder/>
-              </ProtectedRoute>
-            }/>
-            <Route exact path="/payment_method" element={
-              <ProtectedRoute>
-                <PaymentMethod/>
-              </ProtectedRoute>
-            }/>
-            <Route exact path="/me/orders" element={
-              <ProtectedRoute>
-                <MyOrder/>
-              </ProtectedRoute>
-            }/>
-            <Route exact path="/orders/:id" element={
-              <ProtectedRoute>
-                <Orderdetails/>
-              </ProtectedRoute>
-            }/>
-            <Route exact path="/invoice/orders/:id" element={
-              <ProtectedRoute>
-                <Invoice/>
-              </ProtectedRoute>
-            }/>
+            {userRoutes}
+            {adminRoutes}            
           </Routes>
         </div>
         <Footer />
