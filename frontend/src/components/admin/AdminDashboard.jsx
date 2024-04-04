@@ -10,8 +10,8 @@ const AdminDashboard = () => {
   const [endDate, setEndDate] = useState(new Date());
 
   const handleSubmit = () => {
-    console.log(startDate);
-    console.log(endDate);
+    console.log(new Date(startDate).toISOString());
+    console.log(new Date(endDate).toISOString());
   }
   return (
     <Adminlayout>
