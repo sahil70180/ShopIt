@@ -209,5 +209,4 @@ export const getSales = catchAsyncErrors(async (req, res, next) => {
     totalNumOrders,
     sales : salesData
   })
-
 })

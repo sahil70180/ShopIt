@@ -1,17 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Adminlayout from "../layout/Adminlayout";
 import DatePicker from "react-datepicker";
-
+import toast from 'react-hot-toast';
 import "react-datepicker/dist/react-datepicker.css";
 import SalesChart from "../charts/SalesChart";
+import { useLazyGetSalesDataQuery } from "../../redux/api/orderApi";
+import Loader from "../layout/Loader";
 
 const AdminDashboard = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
+  const [getSalesData, {data, error, isLoading}] = useLazyGetSalesDataQuery()
+
+  console.log(data)
+  useEffect(() => {
+    if(error){
+      toast.error(error?.data?.message)
+    }
+    if(startDate && endDate && !data){
+      getSalesData({
+        startDate : new Date(startDate).toISOString(),
+        endDate : new Date(endDate).toISOString()
+      })
+    }
+  },[error])
+
+  if(isLoading){
+    return <Loader/>
+  }
+
   const handleSubmit = () => {
-    console.log(new Date(startDate).toISOString());
-    console.log(new Date(endDate).toISOString());
+    getSalesData({
+      startDate : new Date(startDate).toISOString(),
+      endDate : new Date(endDate).toISOString()
+    })
   }
   return (
     <Adminlayout>
@@ -48,7 +71,7 @@ const AdminDashboard = () => {
               <div className="text-center card-font-size">
                 Sales
                 <br />
-                <b>$0.00</b>
+                <b>Rs. {data?.totalSales}</b>
               </div>
             </div>
           </div>
@@ -60,13 +83,13 @@ const AdminDashboard = () => {
               <div className="text-center card-font-size">
                 Orders
                 <br />
-                <b>0</b>
+                <b>{data?.totalNumOrders}</b>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <SalesChart/>
+      <SalesChart salesData={data?.sales}/>
 
       <div className="mb-5"></div>
     </Adminlayout>
