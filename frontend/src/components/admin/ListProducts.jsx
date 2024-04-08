@@ -9,7 +9,6 @@ import Adminlayout from "../layout/Adminlayout";
 
 const ListProducts = () => {
   const { data, error, isLoading } = useGetAdminProdcutsQuery();
-  console.log(data);
 
   useEffect(() => {
     if (error) {

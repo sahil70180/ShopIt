@@ -4,6 +4,7 @@ import ProtectedRoute from '../auth/ProtectedRoute'
 import AdminDashboard from '../admin/AdminDashboard'
 import ListProducts from '../admin/ListProducts'
 import NewProduct from '../admin/NewProduct'
+import UpdateProduct from '../admin/UpdateProduct'
 const AdminRoutes = () => {
   return (
     <>
@@ -20,6 +21,11 @@ const AdminRoutes = () => {
     <Route exact path="/admin/product/new" element={
       <ProtectedRoute admin={true}>
         <NewProduct/>
+      </ProtectedRoute>
+    }/>
+    <Route exact path="/admin/products/:id" element={
+      <ProtectedRoute admin={true}>
+        <UpdateProduct/>
       </ProtectedRoute>
     }/>
     </>
