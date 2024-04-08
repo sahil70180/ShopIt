@@ -20,10 +20,10 @@ const ForgotPassword = () => {
             toast.error(error?.data?.message);
         }
         if(isSuccess){
-            toast.success(`Email Sent to ${email}! Please check Inbox`)
+            toast.success(`Recovery Mail Sent! Please check Inbox`)
             setEmail("");
         }
-    },[isAuthenticated, error, isSuccess]);
+    },[isAuthenticated, error, isSuccess, navigate]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -31,10 +31,7 @@ const ForgotPassword = () => {
         if(!email){
             return toast.error("Email is Requried for Password Recovery Mail")
         }
-        const userData = {
-            email
-        }
-        forgotPassword(userData);
+        forgotPassword({email});
     }
 
   return (
@@ -64,14 +61,14 @@ const ForgotPassword = () => {
             type="submit"
             className="btn w-100 py-2"
             disabled={isLoading}
+            // onClick={handleSubmit}
             >
             { isLoading ? "Sending Email..." : "Send Email"}
           </button>
         </form>
       </div>
     </div>
-
-            </>
+    </>
   )
 }
 

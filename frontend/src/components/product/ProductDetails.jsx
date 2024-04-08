@@ -9,6 +9,7 @@ import { setCartItem } from "../../redux/features/cartSlice";
 import MetaData from "../layout/MetaData";
 import NewReview from "../reviews/NewReview";
 import ListReviews from "../reviews/ListReviews";
+import DefaultImage from "../../assets/images/default_product.png"
 
 const ProductDetails = () => {
   const params = useParams();
@@ -16,6 +17,7 @@ const ProductDetails = () => {
 
   const [quantity, setQuantity] = useState(1);
   const [activeImg, setactiveImg] = useState("");
+
 
   const { data, isLoading, error, isError } = useGetProductDetailsQuery(
     params?.id
@@ -29,7 +31,7 @@ const ProductDetails = () => {
     setactiveImg(
       product?.images[0]
         ? product?.images[0].url
-        : "/images/default_product.png"
+        : DefaultImage
     );
   }, [product]);
 
@@ -37,7 +39,7 @@ const ProductDetails = () => {
     if (isError) {
       toast.error(error?.data?.message);
     }
-  }, [isError]);
+  }, [isError, error?.data?.message]);
 
   const increaseQty = () => {
     const count = document.querySelector(".count");

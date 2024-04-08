@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import SalesChart from "../charts/SalesChart";
 import { useLazyGetSalesDataQuery } from "../../redux/api/orderApi";
 import Loader from "../layout/Loader";
+import MetaData from "../layout/MetaData";
 
 const AdminDashboard = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -13,7 +14,6 @@ const AdminDashboard = () => {
 
   const [getSalesData, {data, error, isLoading}] = useLazyGetSalesDataQuery()
 
-  console.log(data)
   useEffect(() => {
     if(error){
       toast.error(error?.data?.message)
@@ -24,7 +24,7 @@ const AdminDashboard = () => {
         endDate : new Date(endDate).toISOString()
       })
     }
-  },[error])
+  },[error, startDate, endDate, data, getSalesData])
 
   if(isLoading){
     return <Loader/>
@@ -38,6 +38,7 @@ const AdminDashboard = () => {
   }
   return (
     <Adminlayout>
+      <MetaData title={"Admin -Dashboard"}/>
       <div className="d-flex justify-content-start align-items-center">
         <div className="mb-3 me-4">
           <label className="form-label d-block">Start Date</label>
