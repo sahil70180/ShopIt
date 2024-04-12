@@ -64,10 +64,20 @@ export const productApi = createApi({
             },
             invalidatesTags : ["AdminProducts", "Product"]
         }),
+        uploadProductImages : buidler.mutation({
+            query({id , body}){
+                return {
+                    url : `/admin/products/${id}/upload_images`,
+                    method : "PUT",
+                    body,
+                }
+            },
+            invalidatesTags : ["Product"]
+        }),
     })
 })
 
 // getProducts is a endpoint name, and now we have to export it like a hook (RTK documentation)
 // the reason for exporting hook is that we can use isLoading, iserro and all these varaibles directly 
 
-export const  { useGetProductsQuery, useGetProductDetailsQuery, useSubmitReviewMutation, useCanUserReviewQuery, useGetAdminProdcutsQuery, useCreateProductMutation, useUpdateProductMutation} = productApi
+export const  { useGetProductsQuery, useGetProductDetailsQuery, useSubmitReviewMutation, useCanUserReviewQuery, useGetAdminProdcutsQuery, useCreateProductMutation, useUpdateProductMutation, useUploadProductImagesMutation} = productApi
