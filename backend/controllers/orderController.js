@@ -81,22 +81,29 @@ export const updateOrder = catchAsyncErrors(async (req, res, next) =>{
   }
 
   if(order?.orderStatus == "Delivered"){
-    return next(new Errorhandler("You have already Recieved this order", 400));
-  }
-  if(order?.orderStatus == "Shipped"){
-    return next(new Errorhandler("Order Already Shipped.",400 ));
+    return next(new Errorhandler("Order has been already Delivered", 400));
   }
 
+  let prodcutNotFound = false;
+
   // updating product stock for each orderitem and save the product again
-  order?.orderItems?.forEach(async (item)  =>{
+ for(const item of order?.orderItems){
     const product = await Product.findById(item?.product?.toString());
+    if(!product){
+      prodcutNotFound = true;
+      break;
+    }
     product.stock = product.stock - item.quantity;
     await product.save({validateBeforeSave : false });
-  })
+  }
+
+  if(prodcutNotFound){
+    return next(new Errorhandler("No Poduct Found with one or More ID", 404))
+  }
 
   order.orderStatus = req.body.status;
   order.deliveredAt = Date.now();
-  
+
   await order.save();
 
 
