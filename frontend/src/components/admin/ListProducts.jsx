@@ -4,17 +4,30 @@ import toast from "react-hot-toast";
 import MetaData from "../layout/MetaData";
 import { MDBDataTable } from "mdbreact";
 import { Link } from "react-router-dom";
-import { useGetAdminProdcutsQuery } from "../../redux/api/productApi";
+import { useDeleteProductMutation, useGetAdminProdcutsQuery } from "../../redux/api/productApi";
 import Adminlayout from "../layout/Adminlayout";
 
 const ListProducts = () => {
   const { data, error, isLoading } = useGetAdminProdcutsQuery();
 
+  const [deleteProduct, {isLoading : isDeleteLoading, error : deleteError, isSuccess}] = useDeleteProductMutation();
+
+
   useEffect(() => {
     if (error) {
       toast.error(error?.data?.message);
     }
-  }, [error]);
+    if(deleteError){
+      toast.error(deleteError?.data?.message)
+    }
+    if(isSuccess){
+      toast.success("Product Deleted Successfully")
+    }
+  }, [error, deleteError, isSuccess]);
+
+  const deleteProductHandler = async (id) => {
+    await deleteProduct(id);
+  }
 
   const setProducts = () => {
     const products = {
@@ -63,7 +76,9 @@ const ListProducts = () => {
               <i className="fa fa-image"></i>
             </Link>
             <button
-              className="btn btn-outline-success ms-2"
+              className="btn btn-outline-danger ms-2"
+              onClick={() => deleteProductHandler(product?._id)}
+              disabled={isDeleteLoading}
             >
               <i className="fa fa-trash"></i>
             </button>
