@@ -67,7 +67,6 @@ export const allOrders = catchAsyncErrors(async (req, res, next) =>{
   if(!orders){
     return next(new Errorhandler("No Orders found in the database", 404));
   }
-
   res.status(200).json({
     message :"ALl orders",
     orders,
