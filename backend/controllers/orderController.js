@@ -122,10 +122,8 @@ export const deleteOrder = catchAsyncErrors(async (req, res, next) =>{
   await order.deleteOne();
 
   res.status(200).json({
-    message :"Deleted Succesfully",
     success : true,
   })
-
 })
 
 // funtion that helps to get sales data 

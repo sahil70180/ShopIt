@@ -1,13 +1,28 @@
-import React from 'react'
-import { useGetAdminOrdersQuery } from '../../redux/api/orderApi'
+import React, { useEffect } from 'react'
+import { useDeleteOrderMutation, useGetAdminOrdersQuery } from '../../redux/api/orderApi'
 import Adminlayout from '../layout/Adminlayout';
 import MetaData from '../layout/MetaData';
 import { MDBDataTable } from 'mdbreact';
 import { Link } from 'react-router-dom';
+import toast from "react-hot-toast"
 
 const AllOrders = () => {
+
     const {data} = useGetAdminOrdersQuery();
-    // console.log(data);
+    const [deleteOrder, {error, isLoading, isSuccess}] = useDeleteOrderMutation();
+
+    useEffect(() => {
+      if(error){
+        toast.error(error?.data?.message)
+      }
+      if(isSuccess){
+        toast.success("Order Deleted");
+      }
+    },[error, isSuccess])
+
+    const handleDelete = (id) =>{
+      deleteOrder(id);
+    }
 
     const setOrders = () => {
         const orders = {
@@ -51,6 +66,8 @@ const AllOrders = () => {
                 </Link>
                 <button
                   className="btn btn-outline-danger ms-2"
+                  disabled={isLoading}
+                  onClick={() => handleDelete(order?._id)}
                 >
                   <i className="fa fa-trash"></i>
                 </button>
