@@ -11,6 +11,7 @@ const AllOrders = () => {
     const {data} = useGetAdminOrdersQuery();
     const [deleteOrder, {error, isLoading, isSuccess}] = useDeleteOrderMutation();
 
+    
     useEffect(() => {
       if(error){
         toast.error(error?.data?.message)
