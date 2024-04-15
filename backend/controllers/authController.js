@@ -229,7 +229,6 @@ export const getUserDetails = catchAsyncErrors(async(req, res, next) =>{
     return next(new ErrorHandler(`User Not found with id: ${req.params.id} `, 404))
   }
   res.status(200).json({
-    message:"User Found",
     user,
   })
 })
@@ -251,7 +250,6 @@ export const updateUser = catchAsyncErrors(async (req, res, next) =>{
   }
 
   res.status(200).json({
-    message :"Update successfully",
     user,
   })
 })

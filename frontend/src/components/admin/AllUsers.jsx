@@ -76,7 +76,7 @@ const AllUsers = () => {
 
   return (
     <Adminlayout>
-      <MetaData title={"All Orders"} />
+      <MetaData title={"All Users"} />
       {data?.users?.length > 0 ? (
         <>
           <h1 className="my-5">Total Users : {data?.users?.length}</h1>
