@@ -19,12 +19,11 @@ const Orderdetails = () => {
     if (error) {
       toast.error(error?.data?.message);
     }
-    
-  }, [error]);
+    if (isSuccess) {
+      toast.success("Order Details");
+    }    
+  }, [error, isSuccess]);
 
-  if (isSuccess) {
-    toast.success("Order Details");
-  }
 
   if (isLoading) {
     return <Loader />;

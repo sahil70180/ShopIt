@@ -44,7 +44,6 @@ export const getOrderDetails = catchAsyncErrors(async (req, res, next) =>{
   }
 
   res.status(200).json({
-    message :"Order Details Found",
     order,
   })
 })
