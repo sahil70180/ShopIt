@@ -109,7 +109,7 @@ const AllOrders = () => {
           />
         </>
       ) : (
-        <h1 className="m-5">No products in the Database</h1>
+        <h1 className="m-5">No Orders in the Database</h1>
       )}
 
       <div
