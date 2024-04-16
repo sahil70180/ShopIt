@@ -1,10 +1,11 @@
 import "./App.css";
-import { BrowserRouter, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import { Toaster} from "react-hot-toast"
 import useUserRoutes from "./components/routes/UserRoutes";
 import useAdminRoutes from "./components/routes/AdminRoutes";
+import NotFound from "./components/layout/NotFound";
 
 function App() {
   const userRoutes = useUserRoutes();
@@ -18,7 +19,8 @@ function App() {
         <div className="container">
           <Routes>
             {userRoutes}
-            {adminRoutes}            
+            {adminRoutes}  
+            <Route path="*" element={<NotFound/>}/>          
           </Routes>
         </div>
         <Footer />

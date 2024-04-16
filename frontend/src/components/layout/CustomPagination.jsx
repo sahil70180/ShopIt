@@ -27,7 +27,7 @@ const CustomPagination = ({ responsePerPage, filteredProductsCount }) => {
   };
 
   return (
-    <div className="d-flex justify-content-center">
+    <div className="d-flex justify-content-center mt-2">
       {filteredProductsCount > responsePerPage && (
         <Pagination
           activePage={currentpage}

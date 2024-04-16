@@ -171,7 +171,6 @@ const ProductDetails = () => {
         <p id="product_seller mb-3">
           Sold by: <strong>{product?.seller}</strong>
         </p>
-
         {isAuthenticated ? (<NewReview productId={product?._id} />) :(
         <div className={"alert alert-danger my-5"} type="alert">
           Login to post your review
