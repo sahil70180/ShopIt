@@ -1,4 +1,4 @@
-export const getResetPasswordTemplate = (username, resetUrl) => `
+export const getResetPasswordTemplate = (username, resetOTP) => `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -477,9 +477,9 @@ export const getResetPasswordTemplate = (username, resetUrl) => `
                         <h1>Hi ${username},</h1>
                         <p>
                           You recently requested to reset your password for your
-                          ShopIT account. Use the button below to reset it.
+                          ShopIT account. Use the OTP below to reset your password.
                           <strong
-                            >This password reset is only valid for the next 30
+                            >This password reset OTP is only valid for the next 30
                             minutes.</strong
                           >
                         </p>
@@ -503,12 +503,9 @@ export const getResetPasswordTemplate = (username, resetUrl) => `
                               >
                                 <tr>
                                   <td align="center">
-                                    <a
-                                      href="${resetUrl}"
-                                      class="f-fallback button button--green"
-                                      target="_blank"
-                                      >Reset your password</a
-                                    >
+                                  <button class="f-fallback button button--green">
+                                  ${resetOTP}                                  
+                                  </button>
                                   </td>
                                 </tr>
                               </table>
@@ -527,12 +524,9 @@ export const getResetPasswordTemplate = (username, resetUrl) => `
                           <tr>
                             <td>
                               <p class="f-fallback sub">
-                                If you’re having trouble with the button above,
-                                copy and paste the URL below into your web
+                                If you’re having trouble with the above OTP,
+                                Hit the request again into your web
                                 browser.
-                              </p>
-                              <p class="f-fallback sub">
-                                <a href="${resetUrl}">${resetUrl}</a>
                               </p>
                             </td>
                           </tr>

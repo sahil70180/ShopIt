@@ -2,12 +2,16 @@ import nodemailer from "nodemailer";
 
 const sendEmail = async (options) =>{
     // transport provide by mailtrap while using nodemailer
-    var transport = nodemailer.createTransport({
-        host: "sandbox.smtp.mailtrap.io",
-        port: 2525,
+    const mail = process.env.APP_MAIL
+    const password = process.env.APP_PASSWORD
+
+    var transport = await nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465 ,
+        secure : true,  
         auth: {
-          user: "85de9a326f25b0",
-          pass: "7f5295eed6572b"
+          user: mail,
+          pass : password
         }
     });
     const mailOptions = {
@@ -17,7 +21,12 @@ const sendEmail = async (options) =>{
         html : options.message
     }
 
-    await transport.sendMail(mailOptions);
+    try {
+        await transport.sendMail(mailOptions);        
+    } catch (error) {
+        console.log("Error in Sending Mail", error);
+    }
+
 }
 
 export default sendEmail;

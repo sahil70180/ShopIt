@@ -10,7 +10,6 @@ import UpdateUserProfile from "../user/UpdateUserProfile";
 import UploadAvatar from "../user/UploadAvatar";
 import UpdatePassword from "../user/UpdatePassword";
 import ForgotPassword from "../auth/ForgotPassword";
-import ResetPassword from "../auth/ResetPassword";
 import Cart from "../cart/Cart";
 import Shipping from "../cart/Shipping";
 import ConfirmOrder from "../cart/ConfirmOrder";
@@ -18,6 +17,7 @@ import PaymentMethod from "../cart/PaymentMethod";
 import MyOrder from "../order/MyOrder";
 import Orderdetails from "../order/Orderdetails";
 import Invoice from "../invoice/Invoice";
+import ResetPassword from "../auth/ResetPassword";
 
 const UserRoutes = () => {
   return (
@@ -65,7 +65,7 @@ const UserRoutes = () => {
         }
       />
       <Route exact path="/password/forgot" element={<ForgotPassword />} />
-      <Route exact path="/password/reset/:token" element={<ResetPassword />} />
+      <Route exact path="/password/reset" element={<ResetPassword/>}/>
       <Route
         exact
         path="/cart"

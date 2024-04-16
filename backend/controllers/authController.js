@@ -99,14 +99,13 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   }
 
   // get resetPassword Token from Model Method getRestPasswordToken();
-  const resetToken = user.getResetPasswordToken();
+  const resetOTP = user.getResetPasswordOTP();
 
   await user.save();
 
   // prepare rest URL
-  const resetUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
 
-  const message = getResetPasswordTemplate(user?.name, resetUrl);
+  const message = getResetPasswordTemplate(user?.name, resetOTP);
 
   try {
     await sendEmail({
@@ -129,31 +128,33 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
 // Rest Password ==> /api/vi/password/reset/:token
 export const resetPassword = catchAsyncErrors(async (req, res, next) =>{
-  //hash the URL Token 
-  const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
+  const {email, OTP, newPassword} = req.body;
+
+  if (!email || !OTP || !newPassword) {
+    return next(new ErrorHandler("All fields are Required", 400));
+  }
 
   // now search the user 
-  const user = await User.findOne({
-    resetPasswordToken,
-    resetpasswordExpire : {$gt : Date.now()}, 
-  })
+  const user = await User.findOne({email})
   if(!user){
-    return next(new ErrorHandler("Password reset token is Invalid or has been expired"), 400);
+    return next(new ErrorHandler("User Not Found"), 400);
   };
 
-  // check both password are same or not 
-  if(req.body.password != req.body.confirmPassword){
-    return next(new ErrorHandler("Passwords does not Match"), 400);
-  };
+  if (user.resetPasswordToken !== OTP ||  user.resetpasswordExpire  < Date.now()) {
+    return next(new ErrorHandler("Invalild OTP or has been Expired", 400 ))
+  }
+
   // set the passwod 
-  user.password = req.body.password;
+  user.password = newPassword;
 
   // set the token to undefined 
   user.resetPasswordToken = undefined;
   user.resetpasswordExpire = undefined;
   await user.save();
 
-  assignToken(user, 200, res);
+  res.status(200).json({
+    success : true
+  })
 
 })
 

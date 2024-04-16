@@ -1,98 +1,115 @@
-import React, { useEffect, useState } from "react";
-import { useResetPasswordMutation } from "../../redux/api/userApi";
-import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
-import MetaData from "../layout/MetaData";
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useResetPasswordMutation } from '../../redux/api/userApi';
+import toast from 'react-hot-toast';
 
 const ResetPassword = () => {
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-
+    const [email, setEmail] = useState();
+    const [otp, setOtp] = useState();
+    const [password, setpassword] = useState();
     const navigate = useNavigate();
-    const params = useParams();
 
-    const { isAuthenticated } = useSelector((state) => state.auth);
+    let [searchParams] = useSearchParams();
+
+    const mail = searchParams.get("email");
 
     const [resetPassword, {isLoading, error, isSuccess}] = useResetPasswordMutation();
-    useEffect(() => {
-        if(isAuthenticated){
-            navigate("/");
-        }
+
+    useEffect(() =>{
         if(error){
-            toast.error(error?.data?.message);
+            toast.error(error?.data?.message)
         }
         if(isSuccess){
             toast.success("Password Reset Successfully");
-            navigate("/login");
+            navigate("/login")
         }
-    },[isAuthenticated, error, isSuccess, error?.data?.message, navigate])
+    },[error, isSuccess, navigate])
 
-    const handleSubmit = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
 
-        if(!password || !confirmPassword){
-            return toast.error("All Fields are Requried")
+        if(!email || !otp || !password){
+            return toast.error("All fields are required")
         }
-
-        if(password !== confirmPassword){
-            return toast.error("Password Does not Match");
+        if(otp.length < 6){
+            return toast.error("OTP should be of 6 characters long")
         }
-
         const userData = {
-            password,
-            confirmPassword
+            email,
+            OTP : otp,
+            newPassword : password
         }
-        resetPassword({token : params?.token , body : userData});
+        await resetPassword(userData);
     }
 
+
+    useEffect(() => {
+        if(!mail){
+            navigate("/password/forgot")
+        }
+        if(mail === ""){
+            navigate("/password/forgot")
+        }
+        setEmail(mail);
+    },[navigate, setEmail, mail])
+
   return (
-    <>
-    <MetaData title={"Reset Password"} />
-    <div className="row wrapper">
+    <div>
+        <div className="row wrapper">
       <div className="col-10 col-lg-5">
         <form
           className="shadow rounded bg-body"
-          onSubmit={handleSubmit}
+          method="post"
+          onSubmit={submitHandler}
         >
-          <h2 className="mb-4">New Password</h2>
-
-          <div className="mb-3">
-            <label htmlFor="password_field" className="form-label">
-              Password
-            </label>
+          <h2 className="mb-4">Reset Password</h2>
+          <div className="mt-3">
+            <label for="email_field" className="form-label">Your Email</label>
+            <input
+              type="email"
+              id="email_field"
+              className="form-control"
+              name="email"
+              value={email}
+              disabled={true}
+            />
+          </div>
+          <div className="mt-3">
+            <label for="email_field" className="form-label">Enter OTP</label>
+            <input
+              type="text"
+              id="email_field"
+              className="form-control"
+              name="otp"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+            />
+            <span style={{color : "#623a20", fontSize : "12px"}}>OTP is valid only for 30 minutes</span>
+          </div>
+          <div className="mt-3">
+            <label for="email_field" className="form-label">Set Password</label>
             <input
               type="password"
-              id="password_field"
               className="form-control"
-              name="password"
+              name="text"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              />
+              onChange={(e) => setpassword(e.target.value)}
+            />
           </div>
-
-          <div className="mb-3">
-            <label htmlFor="confirm_password_field" className="form-label">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="confirm_password_field"
-              className="form-control"
-              name="confirm_password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-          </div>
-
-          <button id="new_password_button" type="submit" className="btn w-100 py-2" disabled={isLoading}>
-            {isLoading ? "Please Wait..." : "Set Password"}
+          <button
+            id="forgot_password_button"
+            type="submit"
+            className="btn w-100 py-2"
+            disabled={isLoading}
+          >
+            Reset Password
           </button>
         </form>
       </div>
     </div>
-              </>
-  );
-};
+      
+    </div>
+  )
+}
 
-export default ResetPassword;
+export default ResetPassword

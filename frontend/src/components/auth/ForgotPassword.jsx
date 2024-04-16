@@ -22,8 +22,9 @@ const ForgotPassword = () => {
         if(isSuccess){
             toast.success(`Recovery Mail Sent! Please check Inbox`)
             setEmail("");
+            navigate(`/password/reset?email=${email}`)
         }
-    },[isAuthenticated, error, isSuccess, navigate]);
+    },[isAuthenticated, error, isSuccess, navigate, email]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
