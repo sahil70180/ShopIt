@@ -86,8 +86,17 @@ export const userApi = createApi({
                 }
             },
             invalidatesTags : ["User"]
+        }),
+        deleteUser : builder.mutation({
+            query(id) {
+                return {
+                    url : `/admin/users/${id}`,
+                    method : "DELETE"
+                }
+            },
+            invalidatesTags : ["User"]
         })
     }),
 });
 
-export const {useGetMeQuery, useUpdateProfileMutation, useUploadAvatarMutation, useUpdatePasswordMutation, useForgotPasswordMutation, useResetPasswordMutation, useGetAdminUsersQuery, useGetUserDetailsQuery, useUpdateUserDetailsMutation} = userApi;
+export const {useGetMeQuery, useUpdateProfileMutation, useUploadAvatarMutation, useUpdatePasswordMutation, useForgotPasswordMutation, useResetPasswordMutation, useGetAdminUsersQuery, useGetUserDetailsQuery, useUpdateUserDetailsMutation, useDeleteUserMutation} = userApi;
