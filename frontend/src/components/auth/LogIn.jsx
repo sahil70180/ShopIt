@@ -78,7 +78,7 @@ const LogIn = () => {
             className="btn w-100 py-2"
             disabled={isLoading}
             >
-            {isLoading ? "Authicating...." : "LOGIN"}
+            {isLoading ? "Authenticating...." : "LOGIN"}
           </button>
 
           <div className="my-3">

@@ -10,6 +10,7 @@ import MetaData from "../layout/MetaData";
 import NewReview from "../reviews/NewReview";
 import ListReviews from "../reviews/ListReviews";
 import DefaultImage from "../../assets/images/default_product.png"
+import NotFound from "../layout/NotFound";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -75,9 +76,14 @@ const ProductDetails = () => {
   if (isLoading) {
     return <Loader />;
   }
+
+  if(error && error?.status === 404){
+    return <NotFound/>
+  }
+
   return (
     <>
-    <MetaData title={`${product.name}`} />
+    <MetaData title={`${product?.name}`} />
     <div className="row d-flex justify-content-around">
       <div className="col-12 col-lg-5 img-fluid" id="product_image">
         <div className="p-3">
