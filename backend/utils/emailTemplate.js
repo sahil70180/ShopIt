@@ -426,7 +426,7 @@ export const getResetPasswordTemplate = (username, resetOTP) => `
   </head>
   <body>
     <span class="preheader"
-      >Use this link to reset your password. The link is only valid for 30
+      >Use this OTP to reset your password. This OTP is only valid for 30
       minutes.</span
     >
     <table

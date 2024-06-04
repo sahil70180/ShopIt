@@ -1,7 +1,6 @@
 import nodemailer from "nodemailer";
 
 const sendEmail = async (options) =>{
-    // transport provide by mailtrap while using nodemailer
     const mail = process.env.APP_MAIL
     const password = process.env.APP_PASSWORD
 
